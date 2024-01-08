@@ -1,0 +1,114 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/apps/team-management/api/**"
+  pull_request:
+    branches: [main]
+    types: [opened,synchronize,reopened]
+    paths:
+      - "src/apps/team-management/api/**"
+  workflow_run:
+    workflows: ["Core CI"]
+    types:
+      - completed
+  workflow_dispatch:
+jobs:
+  avoid_reduncy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Cancel Previous Redundant Builds
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+  avoid_trigger_on_service:
+    runs-on: ubuntu-22.04
+    name: Cancel workflow
+    if: ${{ contains(github.event.head_commit.message, '[api]') }}
+    steps:
+      - name: Cancel workflow
+        run: echo "Cancel workflow"
+  lint:
+    needs: [avoid_trigger_on_service]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
+          node-version: '16.14.2'
+      - name: Install dependencies
+        run: npm ci --loglevel=error
+      - name: Lint
+        run: npm run lint -w api
+  sonar:
+    needs: [avoid_trigger_on_service]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ github.token }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: src/apps/team-management/api
+  build:
+    needs: [avoid_trigger_on_service]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
+          node-version: '16.14.2'
+      - name: Install dependencies
+        run: npm ci --loglevel=error
+      - name: Build
+        run: npm run build -w api
+  test:
+    needs: [lint, build, sonar]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
+          node-version: '16.14.2'
+      - name: Install dependencies
+        run: npm ci --loglevel=error
+      - name: Build core
+        run: npm run build -w core
+      - name: Build team-management
+        run: npm run build -w team-management
+      - name: Create env file
+        run: |
+            cd ./src/apps/team-management/api/src/
+            mkdir environments
+            cd environments
+            touch dev.env
+            echo "${{ secrets.DEV_ENV }}" | base64 --decode > dev.env
+      - name: E2E tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run test -w api
+          start: npm run start:dev -w api
+          wait-on: 'http://localhost:3000/api/health'
+  deploy:
+    needs: [test]
+    runs-on: ubuntu-22.04
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - name: Deploiy
+        run: echo "Deploying..."
+

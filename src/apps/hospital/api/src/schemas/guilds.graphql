@@ -1,0 +1,111 @@
+type MasterAddressPoint {
+  longitude: Float
+  latitude: Float
+}
+type MasterAddress {
+  country: String
+  city: String
+  direction: String
+  postal: String
+  coordinates: AddressPoint
+}
+
+type MasterConfiguration {
+  timezone: String
+  lang: String
+  theme: String
+}
+
+type Master {
+  id: String
+  firstName: String
+  lastName: String
+  biography: String
+  gender: String
+  email: String
+  birthDate: String
+  phoneNumber: String
+  address: MasterAddress
+  createdAt: String
+  configuration: MasterConfiguration
+}
+type GuildConfiguration {
+  lang: String
+  timezone: String
+  category: String
+  plan: String
+  nextPayment: String
+  lastPayment: String
+  planStatus: String
+}
+
+type Guild {
+  id: String
+  createdAt: String
+  updatedAt: String
+  name: String
+  email: String
+  description: String
+  country: String
+  foundationDate: String
+  objective: String
+  image: String
+  configuration: GuildConfiguration
+  master: Master
+}
+
+input GuildConfigurationRegister {
+  lang: String
+  timezone: String
+  category: String
+  plan: String
+  nextPayment: String
+  lastPayment: String
+  planStatus: String
+}
+
+input MasterAddressPointRegister {
+  longitude: Float
+  latitude: Float
+}
+input MasterAddressRegister {
+  country: String
+  city: String
+  direction: String
+  postal: String
+  coordinates: AddressPointRegister
+}
+
+input MasterConfigurationRegister {
+  timezone: String
+  lang: String
+  theme: String
+}
+
+input MasterRegister {
+  id: String
+  firstName: String
+  lastName: String
+  biography: String
+  gender: String
+  email: String
+  birthDate: String
+  phoneNumber: String
+  address: MasterAddressRegister
+  createdAt: String
+  configuration: MasterConfigurationRegister
+}
+
+input GuildRegister {
+  id: String
+  name: String
+  email: String
+  description: String
+  country: String
+  foundationDate: String
+  image: String
+  objective: String
+  createdAt: String
+  configuration: GuildConfigurationRegister
+  master: MasterRegister
+}

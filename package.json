@@ -1,0 +1,18 @@
+{
+  "name": "ducen-health",
+  "packageManager": "npm@9.5.1",
+  "private": true,
+  "version": "0.0.0",
+  "description": "New mono repo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jose Veliz (Duccem)",
+  "license": "ISC",
+  "workspaces": [
+    "src/apps/**/*",
+    "src/contexts/**/*",
+    "src/packages/**/*"
+  ]
+}

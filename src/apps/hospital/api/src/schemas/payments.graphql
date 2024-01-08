@@ -1,0 +1,11 @@
+type Payment {
+  id: ID!
+  guildId: String
+  priceId: String
+  sessionId: String
+  paymentDate: String
+  status: String
+  url: String
+  createdAt: String
+  updatedAt: String
+}

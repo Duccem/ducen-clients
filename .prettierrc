@@ -1,0 +1,7 @@
+{
+  "singleQuote": true,
+  "printWidth": 135,
+  "tabWidth": 2,
+  "absoluteImports": true,
+  "semi": true
+}

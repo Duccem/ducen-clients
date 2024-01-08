@@ -1,0 +1,8 @@
+.main_layout {
+  display: grid;
+  grid-template-columns: theme('gridTemplateColumns.main');
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: theme('colors.background');
+}

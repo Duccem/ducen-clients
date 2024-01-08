@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  mongo_db:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+  redis:
+    image: redis
+    container_name: redis
+    logging:
+      driver: none
+    ports:
+      - "6378:6379"
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    logging:
+      driver: none
+  ducen-hospital-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:dev:docker -w api
+    depends_on:
+      - rabbitmq
+      - mongo_db
+      - redis
+  ducen-hospital-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run dev -w web
+    depends_on:
+      - ducen-backend

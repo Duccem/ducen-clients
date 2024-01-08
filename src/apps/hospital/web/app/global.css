@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --main-color: #9747FF;
+  --secondary-color: #DFDFDF;
+  --secondary-typo: #747474;
+  --third-color: #F5F5F5;
+  --warning-color: #DE2AC3;
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --disabled-color: #998CA9;
+  --dark-gray: #282825;
+}
+
+body {
+  font-family: Nunito, Roboto, Arial;
+  margin: 0;
+  padding: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+  height: 100vh;
+  min-width: 100%;
+  box-sizing: border-box;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+

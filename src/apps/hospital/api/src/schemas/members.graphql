@@ -1,0 +1,80 @@
+type AddressPoint {
+  longitude: Float
+  latitude: Float
+}
+type MemberAddress {
+  country: String
+  city: String
+  direction: String
+  postal: String
+  coordinates: AddressPoint
+}
+
+type MemberConfiguration {
+  timezone: String
+  lang: String
+  theme: String
+}
+
+type Member {
+  id: String
+  createdAt: String
+  updatedAt: String
+  nickname: String!
+  firstName: String
+  lastName: String
+  biography: String
+  gender: String
+  email: String
+  phoneNumber: String
+  birthDate: String
+  photo: String
+  address: MemberAddress
+  configuration: MemberConfiguration
+}
+
+type LoginMember {
+  member: Member!
+  token: String!
+}
+
+input AddressPointRegister {
+  longitude: Float
+  latitude: Float
+}
+input MemberAddressRegister {
+  country: String
+  city: String
+  direction: String
+  postal: String
+  coordinates: AddressPointRegister
+}
+
+input MemberConfigurationRegister {
+  timezone: String
+  lang: String
+  theme: String
+}
+
+input MemberRegister {
+  id: String
+  nickname: String!
+  firstName: String
+  lastName: String
+  biography: String
+  gender: String
+  password: String
+  email: String
+  birthDate: String
+  photo: String
+  phoneNumber: String
+  address: MemberAddressRegister
+  guildId: String
+  roleId: String
+  createdAt: String
+  configuration: MemberConfigurationRegister
+}
+
+type Subscription {
+  userRegistered: Member
+}

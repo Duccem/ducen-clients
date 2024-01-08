@@ -1,0 +1,70 @@
+{
+	"Command handler": {
+    "scope": "typescript",
+    "prefix": "_comhand",
+    "body": [
+      "export class $TM_FILENAME_BASE implements CommandHandler<${TM_FILENAME_BASE/(.*)(Handler)/$1/g}Command>{",
+      "  constructor($0) {}",
+      " ",
+      "  subscribedTo(): Command {",
+      "    return ${TM_FILENAME_BASE/(.*)(Handler)/$1/g} Command;",
+      "  }",
+      " "
+      "  public async handle(command: ${TM_FILENAME_BASE/(.*)(Handler)/$1/g}Command): Promise<void> {",
+      "    throw new Error('Method not implemented.');",
+      "  }",
+      "}"
+    ],
+    "description": "Create a command handler",
+    "isFileTemplate": true
+  },
+  "Query handler": {
+    "scope": "typescript",
+    "prefix": "_quehand",
+    "body": [
+      "export class $TM_FILENAME_BASE implements QueryHandler<${TM_FILENAME_BASE/(.*)(Handler)/$1/g}Query>{",
+      "  constructor($0) {}",
+      " ",
+      "  subscribedTo(): Query {",
+      "    return ${TM_FILENAME_BASE/(.*)(Handler)/$1/g}Query;",
+      "  }",
+      " "
+      "  public async handle(query: ${TM_FILENAME_BASE/(.*)(Handler)/$1/g}Query): Promise<any> {",
+      "    throw new Error('Method not implemented.');",
+      "  }",
+      "}"
+    ],
+    "description": "Create a query handler",
+    "isFileTemplate": true
+  },
+  "Dispatcher": {
+    "scope": "typescript",
+    "prefix": "_dispat",
+    "body": [
+      "export class $TM_FILENAME_BASE {",
+      "  constructor($0) {}",
+      " ",
+      "  public async dispatch(command: Command): Promise<void> {",
+      "    throw new Error('Method not implemented.');",
+      "  }",
+      " ",
+      "}"
+    ],
+    "description": "Create a dispatcher",
+    "isFileTemplate": true
+  },
+  "Mother": {
+    "scope": "typescript",
+    "prefix": "_mth",
+    "body": [
+      "export class $TM_FILENAME_BASE {",
+			"\tstatic create(value?: string): ${TM_FILENAME_BASE/(.*)(Mother)/$1/g} {",
+			"\t\treturn new ${TM_FILENAME_BASE/(.*)(Mother)/$1/g}(value ?? $0);",
+			"\t}",
+			"}",
+    ],
+    "description": "Create a object mother",
+    "isFileTemplate": true
+  }
+}
+

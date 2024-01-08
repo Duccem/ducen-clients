@@ -1,0 +1,30 @@
+{
+  "name": "hospital",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/*/**.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "build:back": "tsc --project tsconfig.back.json",
+    "build:watch": "tsc -w --project tsconfig.back.json",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.8.3",
+    "@paypal/checkout-server-sdk": "^1.0.3",
+    "bcryptjs": "^2.4.3",
+    "core": "^0.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.0.0",
+    "stripe": "^13.4.0",
+    "tsconfig": "^0.0.0",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/paypal__checkout-server-sdk": "^1.0.8",
+    "mock-apollo-client": "^1.2.1"
+  }
+}
