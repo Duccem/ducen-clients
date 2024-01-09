@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
     paths:
-      - "src/apps/team-management/api/**"
+      - "src/apps/hospital/api/**"
   pull_request:
     branches: [main]
     types: [opened,synchronize,reopened]
     paths:
-      - "src/apps/team-management/api/**"
+      - "src/apps/hospital/api/**"
   workflow_run:
     workflows: ["Core CI"]
     types:
@@ -58,7 +58,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          projectBaseDir: src/apps/team-management/api
+          projectBaseDir: src/apps/hospital/api
   build:
     needs: [avoid_trigger_on_service]
     runs-on: ubuntu-22.04
@@ -89,11 +89,11 @@ jobs:
         run: npm ci --loglevel=error
       - name: Build core
         run: npm run build -w core
-      - name: Build team-management
-        run: npm run build -w team-management
+      - name: Build hospital
+        run: npm run build -w hospital
       - name: Create env file
         run: |
-            cd ./src/apps/team-management/api/src/
+            cd ./src/apps/hospital/api/src/
             mkdir environments
             cd environments
             touch dev.env
