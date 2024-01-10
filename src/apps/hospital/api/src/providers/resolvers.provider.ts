@@ -1,5 +1,3 @@
-import { GuildResolver } from '../resolvers/guild.resolver';
-import { MemberResolver } from '../resolvers/member.resolver';
-import { PaymentResolver } from '../resolvers/payment.resolver';
+import { UserResolver } from '../resolvers/user.resolver';
 
-export const resolvers = [GuildResolver, MemberResolver, PaymentResolver];
+export const resolvers = [UserResolver];

@@ -9,7 +9,7 @@
     "**/node_modules": true,
     "**/dist": true,
     "**/.next" : true,
-    "**/.expo": true,
+    "**/%ProgramData%": true,
   },
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",

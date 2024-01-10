@@ -2,6 +2,7 @@
   "expo": {
     "name": "ducen-health-app",
     "slug": "ducen-health-app",
+    "entryPoint": "index.js",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ducen29.ducenhealthapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
