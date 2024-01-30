@@ -59,7 +59,7 @@ export default function App() {
         <GlobalNavigator></GlobalNavigator>
       </PrincipalContextProvider>
       <View style={{ backgroundColor: "transparent" }} onLayout={onLayoutRootView}></View>
-      <StatusBar style="light" />
+      <StatusBar style="light" translucent/>
     </>
   );
 }

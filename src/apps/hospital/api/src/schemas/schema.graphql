@@ -1,16 +1,11 @@
 type Mutation {
-  guildRegister(guild: GuildRegister): Boolean
-  memberRegister(member: MemberRegister): Boolean
-  choosePlan(guildId: String, plan: String): Boolean
-  createSession(guildId: String, period: String): Boolean
+  userRegister(user: UserRegister): Boolean
   recoveryPassword(email: String): Boolean
-  changePassword(memberId: String, newPassword: String, oldPassword: String): Boolean
+  changePassword(userId: String, newPassword: String, oldPassword: String): Boolean
 }
 
 type Query {
-  login(identifier: String, password: String): LoginMember
-  guildInformation(guildId: String): Guild
-  getLastSession(guildId: String): Payment
+  login(identifier: String, password: String): LoginUser
 }
 input QueryFilter {
   value: String

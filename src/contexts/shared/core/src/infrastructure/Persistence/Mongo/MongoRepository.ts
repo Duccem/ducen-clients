@@ -1,16 +1,13 @@
 import { Collection } from 'mongodb';
 import { Aggregate } from '../../../domain/Aggregate';
 import { Criteria } from '../../../domain/Criteria/Criteria';
-import { EntityConstructor } from '../../../domain/Types/EntityConstructor';
 import { Primitives } from '../../../domain/Types/Primitives';
 import { MongoConnection } from './MongoConnection';
 import { MongoCriteriaConverter } from './MongoCriteriaConverter';
+import { NewableClass } from '../../../domain/Types/NewableClass';
 export abstract class MongoRepository<T extends Aggregate> {
   protected converter: MongoCriteriaConverter = new MongoCriteriaConverter();
-  constructor(
-    protected connection: MongoConnection,
-    protected entity: EntityConstructor<T>,
-  ) {}
+  constructor(protected connection: MongoConnection, protected entity: NewableClass<T>) {}
   protected get collection(): Collection {
     return this.connection.getConnection()!.collection(this.model);
   }

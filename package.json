@@ -14,5 +14,9 @@
     "src/apps/**/*",
     "src/contexts/**/*",
     "src/packages/**/*"
-  ]
+  ],
+  "dependencies": {
+    "core": "^0.0.0",
+    "mobile": "^1.0.0"
+  }
 }

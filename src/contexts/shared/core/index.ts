@@ -81,6 +81,7 @@ export * from './src/infrastructure/Persistence/Mongo/MongoConnection';
 export * from './src/infrastructure/Persistence/Mongo/MongoCriteriaConverter';
 export * from './src/infrastructure/Persistence/Mongo/MongoDao';
 export * from './src/infrastructure/Persistence/Mongo/MongoRepository';
+export * from './src/infrastructure/Persistence/SQLite/SQLiteConnection';
 export * from './src/infrastructure/Query/InMemoryQueryBus';
 export * from './src/infrastructure/Query/QueryHandlers';
 
@@ -91,4 +92,3 @@ export * from './tests/domain/UuidMother';
 export * from './tests/domain/WordMother';
 export * from './tests/infrastructure/mongo/MongoArranger';
 export * from './tests/infrastructure/mongo/MongoConnectionMother';
-

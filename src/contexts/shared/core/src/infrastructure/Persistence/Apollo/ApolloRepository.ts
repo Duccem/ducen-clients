@@ -3,15 +3,12 @@ import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import pluralize from 'pluralize';
 import { Aggregate } from '../../../domain/Aggregate';
 import { Criteria } from '../../../domain/Criteria/Criteria';
-import { EntityConstructor } from '../../../domain/Types/EntityConstructor';
+import { NewableClass } from '../../../domain/Types/NewableClass';
 import { ApolloCriteriaConverter } from './ApolloCriteriaConverter';
 
 export class ApolloRepository<T extends Aggregate> {
   protected converter = new ApolloCriteriaConverter();
-  constructor(
-    protected client: ApolloClient<NormalizedCacheObject>,
-    private entity: EntityConstructor<T>,
-  ) {}
+  constructor(protected client: ApolloClient<NormalizedCacheObject>, private entity: NewableClass<T>) {}
   protected get model() {
     return this.entity.name.toLowerCase();
   }

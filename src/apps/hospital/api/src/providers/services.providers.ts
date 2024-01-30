@@ -1,6 +1,6 @@
 import { Provider } from '@nestjs/common';
 import { CloudinaryUploader, CustomLogger, FirebaseSender, MailSender, RedisCacheStore } from 'core';
-import { JWTAuthService, StripePaymentProvider } from 'hospital';
+import { JWTAuthService } from 'hospital';
 
 export const services: Provider[] = [
   {
@@ -17,11 +17,6 @@ export const services: Provider[] = [
     provide: 'EMAIL_SERVICE',
     inject: ['EMAIL_CONFIGURATION'],
     useFactory: (conf: any) => new MailSender(conf.fromEmail, conf.username, conf.password, conf.templatePath),
-  },
-  {
-    provide: 'PAYMENT_SERVICE',
-    inject: ['PAYMENT_CONFIGURATION', 'SERVER_CONFIGURATION'],
-    useFactory: (conf: any, server: any) => new StripePaymentProvider(conf.secretKey, server.frontendUrl),
   },
   {
     provide: 'LOGGER_SERVICE',
