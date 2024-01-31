@@ -26,7 +26,7 @@ export function NewPassword({ memberId }) {
   return (
     <>
       <Form onSubmit={handleCredentialsSubmit} width={'75%'} className='mt-[1.25rem]'>
-      <PasswordInput placeholder="Old Password" {...register('oldPassword')} />
+        <PasswordInput placeholder="Old Password" {...register('oldPassword')} />
         <PasswordInput placeholder="New Password" {...register('password')} />
         <PasswordInput placeholder="Repeat Password" {...register('newPassword')} />
         <Button className="mt-5" width={'percent.larger'} type="submit">

@@ -92,10 +92,7 @@ export const useForm = (initialForm: InitialFormState = {}) => {
 
   const register = (name: string) => {
     const props: any = {
-      onChange: (e: any) => {
-        if (typeof e === 'object') handleChange(name, e.target.type === 'checkbox' ? e.target.checked : e.target.value);
-        else handleChange(name, e);
-      },
+      onChange: (e: any) => handleChange(name, e),
       onBlur: () => handleBlur(name),
       error: getError(name),
       value: getValue(name),

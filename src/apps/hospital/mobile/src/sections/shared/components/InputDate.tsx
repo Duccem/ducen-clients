@@ -1,60 +1,104 @@
-import { useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useState } from 'react';
+import { Pressable, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import DateTimePicker from 'react-native-ui-datepicker';
 
-export function InputDate({ placeholder, onChange = () => null, mode }: { placeholder: string, onChange?: (...args: any) => void, mode: 'date' | 'time' | 'datetime' }) {
-  const [date, setDate] = useState<Date | null>(null)
-  const [open, setOpen] = useState(false)
+export interface InputDateProps {
+  placeholder: string;
+  onChange?: (...args: any) => void;
+  onBlur?: (...args: any) => void;
+  error?: string;
+  name?: string;
+  mode: 'date' | 'time' | 'datetime';
+  required?: boolean;
+}
+
+export function InputDate({ placeholder, onChange, mode, onBlur, error, required }: InputDateProps) {
+  const [date, setDate] = useState<Date | null>(null);
+  const [open, setOpen] = useState(false);
   return (
     <View style={styles.buttonBox}>
-      <Pressable style={({pressed}) => [
-        styles.button,
-        {
-          top: pressed ? -2 : -3,
-          left: pressed ? -2 : -3,
-        }
-      ]} onPress={() => setOpen(!open)}>
-        <Text style={styles.buttonText}>
-          { date ? date?.toDateString() : placeholder }
-        </Text>
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          error ? {borderColor: '#DE2AC3'} : {},
+          {
+            top: pressed ? -2 : -3,
+            left: pressed ? -2 : -3,
+          },
+        ]}
+        onPress={() => {
+          setOpen(!open);
+
+        }}
+      >
+        <Text style={styles.buttonText}>{date ? date?.toDateString() : placeholder} <Text style={{color: '#DE2AC3'}}>{required ? '*' : ''}</Text></Text>
       </Pressable>
+      {/* <Text
+        style={{
+          color: '#DE2AC3',
+          fontFamily: 'Nunito_700Bold',
+          fontSize: 14,
+          position: 'absolute',
+          top: 5,
+          right: 10,
+          textAlign: 'center',
+        }}
+      >
+        {error}
+      </Text> */}
       {open && (
-        <View style={{
-          position: 'relative',
-          top:45,
-          left:-3,
-          width: '100%',
-          zIndex: 2,
+        <TouchableWithoutFeedback
+        style={{
           backgroundColor: '#fff',
-          borderColor: '#000',
-          borderStyle: 'solid',
-          borderWidth: 2,
-          borderRadius: 5,
+          width: '100%',
+          height: '100%',
+          zIndex: 1,
+          position: 'absolute',
+          top: 0,
+        }}
+        onPress={() => {
+          setOpen(false);
+          onBlur && onBlur();
         }}>
-          <DateTimePicker
-          value={date}
-          mode={mode}
-          onValueChange={(selectedDate) => {
-            setDate(new Date(selectedDate?.toString() || new Date()))
-            setTimeout(() => setOpen(false), 300)
-            onChange(selectedDate)
-          }}
-          selectedItemColor="#9747FF"
-          selectedTextStyle={{
-            color: '#fff',
-            fontFamily: 'Nunito_700Bold',
-            fontSize: 16,
-          }}
-          calendarTextStyle={{
-            color: '#000',
-            fontFamily: 'Nunito_700Bold',
-            fontSize: 16,
-          }}
-        />
-        </View>
+          <View
+            style={{
+              position: 'relative',
+              top: 45,
+              left: -3,
+              width: '100%',
+              zIndex: 2,
+              backgroundColor: '#fff',
+              borderColor: '#000',
+              borderStyle: 'solid',
+              borderWidth: 2,
+              borderRadius: 5,
+            }}
+          >
+            <DateTimePicker
+              value={date}
+              mode={mode}
+              onValueChange={(selectedDate) => {
+                setDate(new Date(selectedDate?.toString() || new Date()));
+                setTimeout(() => setOpen(false), 800);
+                onChange && onChange(selectedDate);
+              }}
+              selectedItemColor="#9747FF"
+              selectedTextStyle={{
+                color: '#fff',
+                fontFamily: 'Nunito_700Bold',
+                fontSize: 16,
+              }}
+              calendarTextStyle={{
+                color: '#000',
+                fontFamily: 'Nunito_700Bold',
+                fontSize: 16,
+              }}
+            />
+          </View>
+        </TouchableWithoutFeedback>
       )}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -88,5 +132,5 @@ const styles = StyleSheet.create({
     color: '#000',
     fontFamily: 'Nunito_700Bold',
     fontSize: 16,
-  }
+  },
 });

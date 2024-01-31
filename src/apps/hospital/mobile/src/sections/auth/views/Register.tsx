@@ -1,6 +1,6 @@
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { useState } from "react"
+import { useNavigation } from "@react-navigation/native"
 import { StyleSheet, Text, View } from "react-native"
 import { Back } from "../../shared/components/Back"
 import { Button } from "../../shared/components/Button"
@@ -8,56 +8,30 @@ import { InputDate } from "../../shared/components/InputDate"
 import { InputSelect } from "../../shared/components/InputSelect"
 import { InputText } from "../../shared/components/InputText"
 import useForm from "../../shared/hooks/useForm"
-import { required } from "../../shared/validators/required"
+import { formRegisterPrincipal } from "../forms/register-principal"
+import { useAuthContext } from "../state/AuthContext"
 const genders = ['MALE', 'FEMALE', 'OTHER'];
 export function Register() {
+  const navigation = useNavigation();
+  const { setPartialUser } = useAuthContext();
   const { registerMobile, handleSubmit } = useForm({
-    fields: {
-      email: {
-        value: '',
-        validators: {
-          required: (v: string) => required(v),
-        }
-      },
-      firstName: {
-        value: '',
-        validators: {
-          required: (v: string) => required(v),
-        }
-      },
-      lastName: {
-        value: '',
-        validators: {
-          required: (v: string) => required(v),
-        }
-      },
-      birthDate: {
-        value: '',
-        validators: {
-          required: (v: string) => required(v),
-        }
-      },
-      gender: {
-        value: '',
-      }
-    }
+    fields: formRegisterPrincipal
   })
-  const [user, setUser] = useState({
-    email: '',
-    firstName: '',
-    lastName: '',
-    birthDate: '',
-    gender: ''
-  });
 
   const send = () => {
     handleSubmit((values) => {
-      console.log(values)
+      setPartialUser({
+        name: {
+          firstName: values.firstName,
+          lastName: values.lastName
+        },
+        email: values.email,
+        birthDate: values.birthDate,
+        gender: values.gender
+      })
+      navigation.navigate('register-contact' as never)
     }, errors => console.log(errors))
-    //navigation.navigate('register-contact' as never)
   }
-
-  //const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.form}>
@@ -78,10 +52,10 @@ export function Register() {
         </View>
         <View style={{ width: '100%', gap: 30 }}>
           <InputText placeholder={'Email'} required {...registerMobile('email')}/>
-          <InputText placeholder={'First name'} onChange={(value) => setUser({ ...user, firstName: value })}/>
-          <InputText placeholder={'Last name'} onChange={(value) => setUser({ ...user, lastName: value })}/>
-          <InputDate placeholder="Birth Date" mode="date" onChange={(value) => setUser({ ...user, birthDate: value })}/>
-          <InputSelect placeholder="Gender" options={genders} onChange={(value) => setUser({ ...user, gender: value })}/>
+          <InputText placeholder={'First name'} required {...registerMobile('firstName')}/>
+          <InputText placeholder={'Last name'} required {...registerMobile('lastName')}/>
+          <InputDate placeholder="Birth Date" required mode="date" {...registerMobile('birthDate')}/>
+          <InputSelect placeholder="Gender" options={genders} {...registerMobile('gender')}/>
           <Button text='Siguiente' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={send}></Button>
         </View>
       </View>

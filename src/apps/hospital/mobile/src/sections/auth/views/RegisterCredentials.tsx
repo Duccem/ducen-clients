@@ -1,16 +1,40 @@
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { useEffect } from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { Back } from "../../shared/components/Back"
 import { Button } from "../../shared/components/Button"
-import { HelpBanner } from "../../shared/components/HelpBanner"
 import { InputText } from "../../shared/components/InputText"
+import useForm from "../../shared/hooks/useForm"
+import { formRegisterCredentials } from "../forms/register-credentials"
+import { useAuthContext } from "../state/AuthContext"
 
 export function RegisterCredentials() {
+  const { setPartialUser, authState: { user }, register } = useAuthContext();
+  const { registerMobile, handleSubmit, setError } = useForm({
+    fields: formRegisterCredentials
+  })
+
+  useEffect(() => {
+    register();
+  }, [user])
+
+  const send = () => {
+    handleSubmit((values) => {
+      if(values.password === values.confirmPassword) {
+        setPartialUser({
+          password: values.password
+        })
+      } else {
+        setError('confirmPassword', 'Passwords do not match');
+      }
+    }, errors => console.log(errors))
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.form}>
-      <View style={{
+        <View style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -26,11 +50,10 @@ export function RegisterCredentials() {
           <Text style={{ fontFamily: 'Nunito_500Medium' }}>Contraseña de seguridad</Text>
         </View>
         <View style={{ width: '100%', gap: 25 }}>
-          <InputText placeholder={'Password'} secureTextEntry/>
-          <InputText placeholder={'Confirm Password'} secureTextEntry/>
-          <Button text='Finish' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>}></Button>
+          <InputText placeholder={'Password'} secureTextEntry {...registerMobile('password')}/>
+          <InputText placeholder={'Confirm Password'} secureTextEntry {...registerMobile('confirmPassword')}/>
+          <Button text='Finish' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={send}></Button>
         </View>
-        <HelpBanner/>
       </View>
     </View>
   )
