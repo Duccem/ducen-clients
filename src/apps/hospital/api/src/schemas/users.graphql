@@ -47,8 +47,8 @@ input AddressPointRegister {
 input UserAddressRegister {
   country: String
   city: String
-  direction: String
-  postal: String
+  street: String
+  zipCode: String
   coordinates: AddressPointRegister
 }
 

@@ -2,8 +2,15 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Text, View } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
-
-export function InputSelect({ placeholder, options, onChange }: { placeholder: string, options: any[], onChange?: (...args: any) => void }) {
+export interface InputSelectProps {
+  placeholder: string;
+  options: any[];
+  onChange?: (...args: any) => void;
+  onBlur?: (...args: any) => void;
+  error?: string;
+  name?: string;
+}
+export function InputSelect({ placeholder, options, onChange, onBlur, error }: InputSelectProps) {
   return (
     <View style={{
       backgroundColor: '#000',
@@ -16,9 +23,9 @@ export function InputSelect({ placeholder, options, onChange }: { placeholder: s
     }}>
     <SelectDropdown
       data={options}
-      onSelect={(item, index) => onChange ? onChange(item, index) : null}
+      onSelect={(item) => onChange ? onChange(item) : null}
       defaultButtonText="Gender"
-      buttonStyle={{
+      buttonStyle={[{
         backgroundColor: '#fff',
         width: '100%',
         height: 40,
@@ -30,7 +37,9 @@ export function InputSelect({ placeholder, options, onChange }: { placeholder: s
         elevation: 0,
         top: -3,
         left: -3,
-      }}
+      }, error ? {borderColor: '#DE2AC3'} : {},]}
+
+      onBlur={onBlur}
       renderCustomizedButtonChild={(selectedItem: any) => (
         <View style={{ width: '100%', height: '100%', justifyContent: 'center' }}>
           <Text style={{ fontFamily: 'Nunito_700Bold', fontSize: 16, textTransform: 'capitalize' }}>{selectedItem ? selectedItem : placeholder}</Text>

@@ -4,11 +4,41 @@ import { useNavigation } from "@react-navigation/native"
 import { StyleSheet, Text, View } from "react-native"
 import { Back } from "../../shared/components/Back"
 import { Button } from "../../shared/components/Button"
-import { HelpBanner } from "../../shared/components/HelpBanner"
 import { InputText } from "../../shared/components/InputText"
+import useForm from "../../shared/hooks/useForm"
+import { formRegisterContact } from "../forms/register-contact"
+import { useAuthContext } from "../state/AuthContext"
 
 export function RegisterContact() {
   const navigation = useNavigation();
+  const { setPartialUser } = useAuthContext();
+  const { registerMobile, handleSubmit } = useForm({
+    fields: formRegisterContact
+  })
+  const send = () => {
+    handleSubmit((values) => {
+      setPartialUser({
+        phoneNumber: values.phoneNumber,
+        photo: 'image.jpg',
+        address: {
+          country: values.country,
+          city: values.city,
+          street: values.street,
+          zipCode: values.zipCode,
+          coordinates: {
+            latitude: 0,
+            longitude: 0
+          }
+        },
+        configuration: {
+          lang: 'es',
+          timezone: 'America/Caracas',
+          theme: 'light'
+        }
+      })
+      navigation.navigate('register-credentials' as never)
+    }, errors => console.log(errors))
+  }
   return (
     <View style={styles.container}>
       <View style={styles.form}>
@@ -28,14 +58,13 @@ export function RegisterContact() {
           <Text style={{ fontFamily: 'Nunito_500Medium' }}>Datos usados para tu contacto</Text>
         </View>
         <View style={{ width: '100%', gap: 25 }}>
-          <InputText placeholder={'Phone'}/>
-          <InputText placeholder={'Country'}/>
-          <InputText placeholder={'City'}/>
-          <InputText placeholder={'Street'}/>
-          <InputText placeholder={'Zip Code'}/>
-          <Button text='Siguiente' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={() => navigation.navigate('register-credentials' as never)}></Button>
+          <InputText placeholder={'Phone'} {...registerMobile('phoneNumber')}/>
+          <InputText placeholder={'Country'} {...registerMobile('country')}/>
+          <InputText placeholder={'City'} {...registerMobile('city')}/>
+          <InputText placeholder={'Street'} {...registerMobile('street')}/>
+          <InputText placeholder={'Zip Code'} {...registerMobile('zipCode')}/>
+          <Button text='Siguiente' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={send}></Button>
         </View>
-        <HelpBanner/>
       </View>
     </View>
   )

@@ -19,7 +19,6 @@ export function CreateCredentialsForm() {
   });
   useEffect(() => {
     async function registerGuildAdmin() {
-      console.log(getCredentials(), getRegisterType())
       if(getCredentials().nickname && getCredentials().password){
         if(getRegisterType() === 'member') {
           await registerMember();

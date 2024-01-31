@@ -51,10 +51,11 @@ export const initialAuthState: AuthState = {
 type SetToken = { type: 'set_token'; payload: AuthState['token'] };
 type SetLoginCredentials = { type: 'set_login_credentials'; payload: AuthState['loginCredentials'] };
 type SetUser = { type: 'set_user'; payload: AuthState['user'] };
+type SetPartialUser = { type: 'set_partial_user'; payload: Partial<AuthState['user']> };
 type SetRegisterType = { type: 'set_register_type'; payload: AuthState['registerType'] };
 type SetRole = { type: 'set_role'; payload: AuthState['user']['role'] };
 
-export type AuthActions = SetToken | SetLoginCredentials | SetUser | SetRegisterType | SetRole;
+export type AuthActions = SetToken | SetLoginCredentials | SetUser | SetRegisterType | SetRole | SetPartialUser;
 
 export const reducers = {
   set_token: (state: AuthState, action: SetToken) => {
@@ -71,6 +72,9 @@ export const reducers = {
   },
   set_role: (state: AuthState, action: SetRole) => {
     return { ...state, user: { ...state.user, role: action.payload } };
+  },
+  set_partial_user: (state: AuthState, action: SetPartialUser) => {
+    return { ...state, user: { ...state.user, ...action.payload } };
   },
 };
 
@@ -96,7 +100,12 @@ export function useAuthState() {
     dispatch({ type: 'set_register_type', payload });
     dispatch({ type: 'set_role', payload });
   };
-  return { authState, setToken, setLoginCredentials, setRegisterType, setUser };
+
+  const setPartialUser = (payload: Partial<AuthState['user']>) => {
+    dispatch({ type: 'set_partial_user', payload });
+  };
+
+  return { authState, setToken, setLoginCredentials, setRegisterType, setUser, setPartialUser };
 }
 
 export type AuthStoreActions = ReturnType<typeof useAuthState>;

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Animated, Easing, StyleSheet, Text, TextInput } from 'react-native';
+import { Animated, Easing, StyleSheet, TextInput } from 'react-native';
 export type InputTextProps = {
   placeholder: string,
   secureTextEntry?: boolean,
@@ -64,17 +64,7 @@ export function InputText({ placeholder, secureTextEntry, onChange, onBlur, erro
         value={value}
       >
       </TextInput>
-      <Text
-        style={{
-          color: '#DE2AC3',
-          fontFamily: 'Nunito_700Bold',
-          fontSize: 14,
-          position: 'absolute',
-          top: 5,
-          right: 10,
-          textAlign: 'center',
-        }}
-      >{error}</Text>
+
     </Animated.View>
   );
 }
