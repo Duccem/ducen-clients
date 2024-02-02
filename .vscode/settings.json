@@ -10,6 +10,7 @@
     "**/dist": true,
     "**/.next" : true,
     "**/%ProgramData%": true,
+    "**/.expo": true
   },
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",

@@ -1,6 +1,6 @@
 import { required } from 'ui';
 
-export const MemberForm = {
+export const RegisterForm = {
   firstName: {
     value: '',
     validators: {
@@ -25,10 +25,19 @@ export const MemberForm = {
   city: {
     value: '',
   },
-  postal: {
+  zipCode: {
     value: '',
   },
-  direction: {
+  street: {
+    value: '',
+  },
+  phoneNumber: {
+    value: '',
+  },
+  codeNumber: {
+    value: '',
+  },
+  gender: {
     value: '',
   },
   terms: {

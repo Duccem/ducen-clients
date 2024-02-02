@@ -3,7 +3,6 @@ import { layout, space } from 'styled-system';
 import { StyledTypes } from './types';
 export const StyledContainer = styled.div<StyledTypes>`
   position: relative;
-  width: 100%;
   ${space}
   ${layout}
 `;

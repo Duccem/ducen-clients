@@ -60,6 +60,7 @@ export type Errors = {
 };
 
 export const useForm = (initialForm: InitialFormState = {}) => {
+  const [submitting, setSubmitting] = useState(false);
   const [formState, setFormState] = useState(() => {
     const state: FormState = {
       fields: {},
@@ -261,9 +262,9 @@ export const useForm = (initialForm: InitialFormState = {}) => {
     });
   };
 
-  const handleSubmit = async (e: any, onSubmit: (values: Values) => void, onError?: (values: Values) => void) => {
+  const handleSubmit = async (e: any, onSubmit: (values: Values) => void | Promise<void>, onError?: (values: Values) => void) => {
     e.preventDefault();
-
+    setSubmitting(true);
     const hasErrors = await validateForm();
 
     const values = getFormValues();
@@ -273,7 +274,7 @@ export const useForm = (initialForm: InitialFormState = {}) => {
         onError(values);
       }
     } else {
-      onSubmit(values);
+      await onSubmit(values);
     }
   };
 
@@ -292,6 +293,8 @@ export const useForm = (initialForm: InitialFormState = {}) => {
     validateForm,
     handleReset,
     handleSubmit,
+    submitting,
+    setSubmitting,
   };
 };
 

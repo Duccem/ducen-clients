@@ -1,18 +1,18 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { UuidMother } from 'core';
-import { ApolloUserService } from '../../../src/User/infrastructure/ApolloUserService';
+import { ApolloUserRepository } from '../../../src/User/infrastructure/ApolloUserRepository';
 import { UserDataMother } from '../domain/UserDataMother';
 import { UserMother } from '../domain/UserMother';
 
 describe('ApolloUserRepository', () => {
   let client: ApolloClient<NormalizedCacheObject>;
-  let repository: ApolloUserService;
+  let repository: ApolloUserRepository;
   beforeEach(() => {
     client = {
       mutate: jest.fn().mockResolvedValue({ data: null }),
       query: jest.fn(),
     } as unknown as ApolloClient<NormalizedCacheObject>;
-    repository = new ApolloUserService(client);
+    repository = new ApolloUserRepository(client);
   });
 
   it('should register a user', async () => {

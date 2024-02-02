@@ -11,16 +11,17 @@ export const StyledSocialButton = styled.div`
   align-items: center;
   justify-content: center;
   box-shadow: 2px 2px #282825;
-  .image {
+  .image,
+  svg {
     height: 20px;
     width: 20px;
   }
-  &:hover{
+  &:hover {
     cursor: pointer;
     box-shadow: 4px 4px #282825;
     transform: translateX(-2px) translateY(-2px);
   }
   transition-property: all;
-  transition-timing-function: cubic-bezier(.4,0,.2,1);
-  transition-duration: .15s;
-`
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.15s;
+`;

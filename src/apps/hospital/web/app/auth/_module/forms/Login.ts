@@ -1,7 +1,7 @@
 import { required } from 'ui';
 
 export const Login = {
-  identifier: {
+  email: {
     value: '',
     validators: {
       required: (v: string) => required(v),

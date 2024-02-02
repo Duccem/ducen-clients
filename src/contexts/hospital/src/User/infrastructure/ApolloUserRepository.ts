@@ -5,7 +5,7 @@ import { UserService } from '../domain/UserService';
 import { LOGIN } from './Apollo/login';
 import { REGISTER } from './Apollo/register';
 
-export class ApolloUserService extends ApolloRepository<User> implements UserService {
+export class ApolloUserRepository extends ApolloRepository<User> implements UserService {
   constructor(client: ApolloClient<NormalizedCacheObject>) {
     super(client, User);
   }

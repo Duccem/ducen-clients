@@ -42,8 +42,8 @@ export class User extends Aggregate {
       new Image(data.photo),
       new UserGender(data.gender),
       UserConfiguration.fromPrimitives(data.configuration),
-      new DateValueObject(data.createdAt),
-      new DateValueObject(data.updatedAt)
+      new DateValueObject(data.createdAt || new Date()),
+      new DateValueObject(data.updatedAt || new Date())
     );
   }
   public toPrimitives(): Primitives<User> {

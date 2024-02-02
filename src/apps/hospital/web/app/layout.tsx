@@ -2,7 +2,7 @@ import '@fontsource/nunito';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { Metadata } from 'next';
-import { DucenProvider } from '../modules/shared/common/DucenProvider';
+import { PrincipalContextProvider } from '../modules/shared/PrincipalContext';
 import { IndexProtect } from './_shared/components/IndexProtect';
 import { RouteGuard } from './_shared/components/RouteGuard';
 import './global.css';
@@ -19,13 +19,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body suppressHydrationWarning={true}>
         <IndexProtect>
           <RouteGuard>
-            <DucenProvider configurations={{
+            <PrincipalContextProvider configurations={{
               baseUrl: process.env.BACKEND_URL,
               countriesUrl: process.env.COUNTRIES_URL,
               citiesUrl: process.env.CITIES_URL,
             }}>
               {children}
-            </DucenProvider>
+            </PrincipalContextProvider>
           </RouteGuard>
         </IndexProtect>
       </body>

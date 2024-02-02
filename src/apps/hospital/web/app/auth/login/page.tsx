@@ -1,6 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { SocialButton } from 'ui';
+import { Facebook } from '../../_shared/components/icons/facebook';
+import { Google } from '../../_shared/components/icons/google';
+import { XIcon } from '../../_shared/components/icons/x';
 import { LoginForm } from '../_module/components/LoginForm';
 
 export default function Page() {
@@ -10,7 +12,7 @@ export default function Page() {
         <div className="h-full w-full p-[15px] flex flex-col box-border items-center justify-center">
           <div className="w-3/4">
             <p className="text-3xl font-bold mb-[5px]">Hey, Hello!</p>
-            <p className="text-lg font-normal">Welcome to Ducen, lets get fun!</p>
+            <p className="text-lg font-normal">Welcome to Helsa, your mobile hospital!</p>
           </div>
           <div className="my-5 w-3/4">
             <LoginForm></LoginForm>
@@ -27,19 +29,13 @@ export default function Page() {
             <p>Log in with</p>
             <div className="flex gap-3">
               <SocialButton>
-                <Image src="/images/google.png" alt="google" width="20" height="20"></Image>
+                <Google size={15}/>
               </SocialButton>
               <SocialButton>
-                <Image src="/images/facebook.png" alt="facebook" width="20" height="20"></Image>
+                <Facebook size={15}/>
               </SocialButton>
               <SocialButton>
-                <Image src="/images/gorjeo.png" alt="twitter" width="20" height="20"></Image>
-              </SocialButton>
-              <SocialButton>
-                <Image src="/images/github.png" alt="github" width="20" height="20"></Image>
-              </SocialButton>
-              <SocialButton>
-                <Image src="/images/linkedin.png" alt="linkedin" width="20" height="20"></Image>
+                <XIcon size={15}/>
               </SocialButton>
             </div>
           </div>

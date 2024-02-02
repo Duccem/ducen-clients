@@ -3,14 +3,23 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "module": "ESNext",
+    "skipDefaultLibCheck": true,
     "outDir": "./dist",
-    "lib": [
-      "es6"
-    ],
     "declaration": true,
     "declarationMap": true,
-    "target": "ES2021",
+    "target": "ESNext",
     "sourceMap": true,
     "skipLibCheck": true,
+    "noImplicitOverride": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strict": false,
+    "types": [
+      "node",
+      "jest"
+    ],
   },
 }

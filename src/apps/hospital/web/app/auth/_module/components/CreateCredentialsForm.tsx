@@ -1,44 +1,39 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Button, Form, PasswordInput, TextInput, useForm } from 'ui';
-import { useGuildContext } from '../../../../modules/guild/GuildContext';
-import { useMemberContext } from '../../../../modules/member/MemberContext';
-import { useAuthContext } from '../../../../modules/shared/auth/AuthContext';
+import { Button, Form, PasswordInput, useForm } from 'ui';
+import { useAuthContext } from '../../../../modules/auth/AuthContext';
 import { CredentialsForm } from '../forms/CredentialsForm';
 
 export function CreateCredentialsForm() {
   const location = useRouter();
-  const { memberState, setCredentials, registerMember, getCredentials } = useMemberContext();
-  const { registerGuild } = useGuildContext()
-  const { getRegisterType } = useAuthContext()
-  const { register, handleSubmit } = useForm({
+  const {  authState, register: registerUser, setPartialUser } = useAuthContext()
+  const { register, handleSubmit, setError, submitting, setSubmitting } = useForm({
     validateOn: 'all',
     fields: CredentialsForm,
   });
   useEffect(() => {
-    async function registerGuildAdmin() {
-      if(getCredentials().nickname && getCredentials().password){
-        if(getRegisterType() === 'member') {
-          await registerMember();
-          location.push('/auth/completed')
-        } else {
-          await registerGuild();
-          location.push('/auth/choose-plan')
-        }
+    if(authState.user.password !== '') {
+      async function sendRegister() {
+        setSubmitting(true);
+        await registerUser();
+        location.push('/auth/completed')
       }
+      sendRegister();
     }
-    registerGuildAdmin();
-  }, [memberState.member.nickname, memberState.member.password])
+  }, [authState.user.password]);
   async function handleCredentialsSubmit(e) {
     handleSubmit(
       e,
-      async ({ identifier, password }) => {
-        setCredentials({
-          nickname: identifier,
-          password
-        });
+      async ({ newPassword, password }) => {
+        if(newPassword === password) {
+          setPartialUser({
+            password: password
+          })
+          console.log(authState.user);
+        }else {
+          setError('newPassword', 'Passwords do not match');
+        }
       },
       (values) => console.log(values)
     );
@@ -46,10 +41,9 @@ export function CreateCredentialsForm() {
   return (
     <>
       <Form onSubmit={handleCredentialsSubmit} width={'75%'} className='mt-[1.25rem]'>
-        <TextInput placeholder="Username" {...register('identifier')} />
         <PasswordInput placeholder="Password" {...register('password')} />
         <PasswordInput placeholder="Confirm Password" {...register('newPassword')} />
-        <Button className="mt-5" width={'percent.larger'} type="submit">
+        <Button className="mt-5" width={'percent.larger'} type="submit" submitting={submitting}>
           Finish
         </Button>
       </Form>

@@ -1,7 +1,11 @@
 {
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "jsx": "preserve",
     "allowJs": true,
     "esModuleInterop": true,
@@ -12,14 +16,22 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "node",
-    "target": "es2015",
+    "target": "ESNext",
     "types": [
-      "node",
+      "node"
     ],
-    "strictNullChecks": false,
+    "strictNullChecks": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "test"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "test"
+  ]
 }

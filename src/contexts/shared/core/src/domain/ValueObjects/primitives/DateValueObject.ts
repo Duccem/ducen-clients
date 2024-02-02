@@ -1,7 +1,7 @@
 import { addDays, isValid, subDays } from 'date-fns';
 import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
-import { ValueObject } from '../../ValueObject';
 import { FormatError } from '../../Errors/FormatError';
+import { ValueObject } from '../../ValueObject';
 
 export class DateValueObject extends ValueObject<Date> {
   private readonly timezone?: string;
@@ -11,7 +11,7 @@ export class DateValueObject extends ValueObject<Date> {
   }
 
   public validation(value: Date): void {
-    if (!isValid(new Date(value))) throw new FormatError('The format of the date is not correct');
+    if (!isValid(new Date(value))) throw new FormatError(`${value} is not a valid date`);
   }
 
   public toUTC(): Date {

@@ -6,9 +6,10 @@
   "types": "dist/*/**.d.ts",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project tsconfig.json",
     "build:back": "tsc --project tsconfig.back.json",
-    "build:watch": "tsc -w --project tsconfig.back.json",
+    "build:watch:back": "tsc -w --project tsconfig.back.json",
+    "build:watch:front": "tsc -w --project tsconfig.json",
     "test": "jest"
   },
   "dependencies": {
