@@ -7,6 +7,6 @@ export function OkButton({ route }) {
   const location = useRouter()
   const goTo = () => location.push(route)
   return (
-    <Button width={'percent.small'} marginTop={'20px'} onClick={goTo}>Login</Button>
+    <Button width={'percent.small'} className="mt-[20px]" onClick={goTo}>Login</Button>
   )
 }

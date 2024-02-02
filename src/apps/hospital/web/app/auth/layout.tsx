@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <div className={styles.auth_layout}>
         <div className={styles.auth_layout__left}>
           <div className={styles.auth_layout__header}>
-            <h1 className={styles.auth_layout__logo}>Ducen</h1>
+            <h1 className={styles.auth_layout__logo}>Helsa</h1>
             <BackButton to={'/auth/login'} text={'Back to login'}></BackButton>
           </div>
           <div className={styles.auth_layout__content}>

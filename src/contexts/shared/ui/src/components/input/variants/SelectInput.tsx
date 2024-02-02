@@ -33,7 +33,7 @@ const OptionStyled = styled.div`
   padding: 5px;
   display: flex;
   align-items: center;
-  :hover {
+  &:hover {
     background-color: ${(props) => props.theme.colors.purple};
     cursor: pointer;
   }
@@ -115,7 +115,7 @@ export function SelectInput({ placeholder, value, options, onChange , autocomple
         <Options>
           {
             filtered.map((option, index) => (
-              <Option key={option.value} active={active == index} icon={option.icon} label={option.label} value={option.value} onClick={() => handleClick(option.value)}/>
+              <Option key={option.value + index.toString()} active={active == index} icon={option.icon} label={option.label} value={option.value} onClick={() => handleClick(option.value)}/>
             ))
           }
         </Options>

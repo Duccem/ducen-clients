@@ -1,4 +1,4 @@
-import { RegisterMemberForm } from "../_module/components/RegisterMemberForm";
+import { RegisterUserForm } from "../_module/components/RegisterUserForm";
 
 export default function Page() {
   return (
@@ -9,7 +9,7 @@ export default function Page() {
             <p className="text-3xl font-bold mb-1">Member information</p>
             <p className="text-base text-[#747474]">Register the essential information</p>
           </div>
-          <RegisterMemberForm></RegisterMemberForm>
+          <RegisterUserForm></RegisterUserForm>
         </div>
       </div>
     </>

@@ -73,6 +73,7 @@ input UserRegister {
   address: UserAddressRegister
   role: String
   createdAt: String
+  updatedAt: String
   configuration: UserConfigurationRegister
 }
 

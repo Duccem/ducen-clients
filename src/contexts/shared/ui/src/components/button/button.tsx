@@ -1,7 +1,8 @@
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { LayoutProps, SpaceProps, layout, space } from 'styled-system';
 import { theme } from '../../utils/theme';
-export const Button = styled.button<LayoutProps & SpaceProps>`
+export const StyledButton = styled.button<LayoutProps & SpaceProps>`
   ${layout}
   ${space}
   background-color: ${theme.colors.purple};
@@ -12,6 +13,7 @@ export const Button = styled.button<LayoutProps & SpaceProps>`
   border: solid 2px ${theme.colors.black};
   border-radius: ${theme.radii.full};
   box-shadow: 3px 3px #282825;
+  box-sizing: border-box;
   .middle {
     margin-right: 10px;
   }
@@ -41,4 +43,32 @@ export const Button = styled.button<LayoutProps & SpaceProps>`
   transition-property: all;
   transition-timing-function: cubic-bezier(.4,0,.2,1);
   transition-duration: .15s;
+
+  .loader {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+  }
 `
+export const Button = ({submitting,...props}: PropsWithChildren & LayoutProps & SpaceProps & ButtonHTMLAttributes<HTMLButtonElement> & { submitting?: boolean }) => {
+  return (
+    <StyledButton {...props} disabled={submitting}
+    >
+      {submitting ? <span className="loader"></span> : props.children}
+    </StyledButton>
+  )
+}

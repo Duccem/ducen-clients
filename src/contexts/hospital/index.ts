@@ -31,6 +31,6 @@ export * from './src/User/domain/UserRole';
 export * from './src/User/domain/UserService';
 export * from './src/User/infrastructure/Apollo/login';
 export * from './src/User/infrastructure/Apollo/register';
-export * from './src/User/infrastructure/ApolloUserService';
+export * from './src/User/infrastructure/ApolloUserRepository';
 export * from './src/User/infrastructure/JWTAuthService';
 export * from './src/User/infrastructure/MongoUserRepository';

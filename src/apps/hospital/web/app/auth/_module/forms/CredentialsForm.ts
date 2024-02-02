@@ -1,12 +1,6 @@
 import { password, required } from 'ui';
 
 export const CredentialsForm = {
-  identifier: {
-    value: '',
-    validators: {
-      required: (v: string) => required(v),
-    },
-  },
   password: {
     value: '',
     validators: {
