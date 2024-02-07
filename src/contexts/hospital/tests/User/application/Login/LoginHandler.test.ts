@@ -5,7 +5,7 @@ import { AuthService } from '../../../../src/User/domain/AuthService';
 import { IdentifyBy } from '../../../../src/User/domain/IdentifyBy';
 import { IncorrectPassword } from '../../../../src/User/domain/IncorrectPassword';
 import { UserNotExist } from '../../../../src/User/domain/UserNotExist';
-import { JWTAuthService } from '../../../../src/User/infrastructure/JWTAuthService';
+import { JWTAuthService } from '../../../../src/User/infrastructure/service/JWTAuthService';
 import { MockUserRepository } from '../../__mocks__/MockUserRepository';
 import { UserMother } from '../../domain/UserMother';
 

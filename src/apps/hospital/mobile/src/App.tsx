@@ -22,8 +22,8 @@ import { StatusBar } from "expo-status-bar";
 import { useCallback } from "react";
 import { LogBox, View } from "react-native";
 import 'react-native-gesture-handler';
+import { PrincipalContextProvider } from "./modules/shared/PrincipalContext";
 import { GlobalNavigator } from "./sections/shared/global-navigator";
-import { PrincipalContextProvider } from "./sections/shared/state/PrincipalContext";
 SplashScreen.preventAutoHideAsync();
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 export default function App() {

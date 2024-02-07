@@ -1,12 +1,11 @@
-import { App, cert, initializeApp, ServiceAccount } from 'firebase-admin/app';
-import { getMessaging } from 'firebase-admin/messaging';
+import { ServiceAccount, app, credential, initializeApp, messaging } from 'firebase-admin';
 import { NotificationPayload, NotificationSender } from '../domain/NotificationSender';
 export class FirebaseSender extends NotificationSender {
-  private firebaseApp: App;
+  private firebaseApp: app.App;
   constructor(serviceAccount: ServiceAccount) {
     super();
     this.firebaseApp = initializeApp({
-      credential: cert(serviceAccount),
+      credential: credential.cert(serviceAccount),
     });
   }
 
@@ -20,7 +19,7 @@ export class FirebaseSender extends NotificationSender {
       type: 'PUSH',
     };
     const tokens = devices.map((device) => device.token);
-    await getMessaging(this.firebaseApp).sendToDevice(tokens, {
+    await messaging(this.firebaseApp).sendToDevice(tokens, {
       notification: {
         title,
         body,

@@ -1,6 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { UuidMother } from 'core';
-import { ApolloUserRepository } from '../../../src/User/infrastructure/ApolloUserRepository';
+import { ApolloUserRepository } from '../../../src/User/infrastructure/persistance/Apollo/ApolloUserRepository';
 import { UserDataMother } from '../domain/UserDataMother';
 import { UserMother } from '../domain/UserMother';
 

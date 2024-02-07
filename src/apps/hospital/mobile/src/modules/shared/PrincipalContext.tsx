@@ -1,14 +1,14 @@
 import { PropsWithChildren, createContext, useContext } from "react";
-import { AuthProvider } from "../../auth/state/AuthContext";
+import { UserProvider } from "../user/UserContext";
 import { DatabaseConnectionProvider } from "./DatabaseContext";
-import { ServicesProvider } from "./ServicesContext";
+import { RepositoryProvider } from "./ServicesContext";
 import { TranslateContextProvider } from "./TranslateContext";
 import { combineComponents } from "./combinedProviders";
 
 export const PrincipalContext = createContext({});
 
 const providers: any[] = [
-  AuthProvider
+  UserProvider
 ];
 
 export const AppContextProvider = combineComponents(...providers)
@@ -18,11 +18,11 @@ export const PrincipalContextProvider = ({ children }: PropsWithChildren) => {
     <PrincipalContext.Provider value={{}}>
       <DatabaseConnectionProvider>
         <TranslateContextProvider>
-          <ServicesProvider>
+          <RepositoryProvider>
             <AppContextProvider>
               {children}
             </AppContextProvider>
-          </ServicesProvider>
+          </RepositoryProvider>
         </TranslateContextProvider>
       </DatabaseConnectionProvider>
     </PrincipalContext.Provider>

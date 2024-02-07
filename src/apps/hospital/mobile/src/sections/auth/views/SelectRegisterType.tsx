@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
+import { useUserContext } from "../../../modules/user/UserContext";
 import { Back } from "../../shared/components/Back";
 import { SelectCard } from "../../shared/components/SelectCard";
 import { Doctor } from "../../shared/components/icons/doctor";
 import { Heart } from "../../shared/components/icons/heart";
-import { useAuthContext } from "../state/AuthContext";
 
 export function SelectRegisterType() {
-  const { setRegisterType } = useAuthContext();
+  const { setRegisterType } = useUserContext();
   const navigator = useNavigation();
   const selectAndGoToRegister = (type: 'DOCTOR' | 'PATIENT') => {
     setRegisterType(type);

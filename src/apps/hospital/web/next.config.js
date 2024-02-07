@@ -9,7 +9,7 @@ module.exports = {
     ];
   },
   reactStrictMode: true,
-  transpilePackages: ['ui'],
+  transpilePackages: ['ui', 'core'],
   webpack: (config, { isServer }) => {
     config.resolve.fallback = {
       fs: false,
@@ -34,10 +34,14 @@ module.exports = {
       '@aws-sdk/credential-providers': false,
       '@mongodb-js/zstd': false,
       kerberos: false,
+      request: false,
+      'firebase-admin': false,
     };
     config.resolve.alias = {
       ...config.resolve.alias,
       handlebars: 'handlebars/dist/handlebars.js',
+      cloudinary: 'cloudinary/lib/cloudinary.js',
+      'firebase-admin': 'firebase-admin/app',
     };
     return config;
   },

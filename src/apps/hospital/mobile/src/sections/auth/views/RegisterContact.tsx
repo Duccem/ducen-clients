@@ -2,16 +2,16 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useNavigation } from "@react-navigation/native"
 import { StyleSheet, Text, View } from "react-native"
+import { useUserContext } from "../../../modules/user/UserContext"
 import { Back } from "../../shared/components/Back"
 import { Button } from "../../shared/components/Button"
 import { InputText } from "../../shared/components/InputText"
 import useForm from "../../shared/hooks/useForm"
 import { formRegisterContact } from "../forms/register-contact"
-import { useAuthContext } from "../state/AuthContext"
 
 export function RegisterContact() {
   const navigation = useNavigation();
-  const { setPartialUser } = useAuthContext();
+  const { setPartialUser } = useUserContext();
   const { registerMobile, handleSubmit } = useForm({
     fields: formRegisterContact
   })

@@ -1,7 +1,7 @@
 import { MongoArranger, MongoConnection, MongoConnectionMother, UuidMother } from 'core';
 import { IdentifyBy } from '../../../src/User/domain/IdentifyBy';
 import { UserRepository } from '../../../src/User/domain/UserRepository';
-import { MongoUserRepository } from '../../../src/User/infrastructure/MongoUserRepository';
+import { MongoUserRepository } from '../../../src/User/infrastructure/persistance/MongoDB/MongoUserRepository';
 import { UserMother } from '../domain/UserMother';
 
 describe('MongoUserRepository', () => {

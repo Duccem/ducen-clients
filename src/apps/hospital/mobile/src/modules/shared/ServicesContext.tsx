@@ -1,6 +1,7 @@
 import { ApolloClient, DefaultOptions, InMemoryCache } from '@apollo/client';
+import { ApolloUserRepository } from 'hospital';
 import { createContext, useContext } from "react";
-import { ApolloUserRepository } from '../../../modules/user/infrastructure/ApolloUserRepository';
+
 const defaultOptions: DefaultOptions = {
   watchQuery: {
     fetchPolicy: 'no-cache',
@@ -16,20 +17,20 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
   defaultOptions,
 });
-export interface ServicesContextProps {
+export interface RepositoryContextProps {
   userRepository: ApolloUserRepository;
 }
 
-const ServicesContext = createContext<ServicesContextProps>({} as ServicesContextProps);
+const RepositoryContext = createContext<RepositoryContextProps>({} as RepositoryContextProps);
 
-export const ServicesProvider = ({ children }: any) => {
+export const RepositoryProvider = ({ children }: any) => {
   const userRepository = new ApolloUserRepository(client);
 
   return (
-    <ServicesContext.Provider value={{ userRepository }} >
+    <RepositoryContext.Provider value={{ userRepository }} >
       {children}
-    </ServicesContext.Provider>
+    </RepositoryContext.Provider>
   );
 };
 
-export const useServicesContext = () => useContext(ServicesContext);
+export const useRepositoryContext = () => useContext(RepositoryContext);

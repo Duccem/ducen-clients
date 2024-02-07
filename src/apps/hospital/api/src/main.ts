@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { graphqlUploadExpress } from 'graphql-upload-ts';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -14,6 +15,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
   app.useLogger(logger);
   app.enableCors();
+  app.use('/api/graphql', graphqlUploadExpress({ maxFileSize: 100000000, maxFiles: 10 }));
   await app.listen(port || 3000);
   logger.log(`🚀 Application is running on: ${host}:${port}/${globalPrefix}`);
 }
