@@ -2,17 +2,15 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useNavigation } from "@react-navigation/native"
 import { StyleSheet, Text, View } from "react-native"
+import { MobileButton, MobileInputText, useMobileForm } from "ui"
+import { Back } from "../../../modules/shared/components/Back"
 import { useUserContext } from "../../../modules/user/UserContext"
-import { Back } from "../../shared/components/Back"
-import { Button } from "../../shared/components/Button"
-import { InputText } from "../../shared/components/InputText"
-import useForm from "../../shared/hooks/useForm"
 import { formRegisterContact } from "../forms/register-contact"
 
 export function RegisterContact() {
   const navigation = useNavigation();
   const { setPartialUser } = useUserContext();
-  const { registerMobile, handleSubmit } = useForm({
+  const { registerMobile, handleSubmit } = useMobileForm({
     fields: formRegisterContact
   })
   const send = () => {
@@ -58,12 +56,12 @@ export function RegisterContact() {
           <Text style={{ fontFamily: 'Nunito_500Medium' }}>Datos usados para tu contacto</Text>
         </View>
         <View style={{ width: '100%', gap: 25 }}>
-          <InputText placeholder={'Phone'} {...registerMobile('phoneNumber')}/>
-          <InputText placeholder={'Country'} {...registerMobile('country')}/>
-          <InputText placeholder={'City'} {...registerMobile('city')}/>
-          <InputText placeholder={'Street'} {...registerMobile('street')}/>
-          <InputText placeholder={'Zip Code'} {...registerMobile('zipCode')}/>
-          <Button text='Siguiente' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={send}></Button>
+          <MobileInputText placeholder={'Phone'} {...registerMobile('phoneNumber')}/>
+          <MobileInputText placeholder={'Country'} {...registerMobile('country')}/>
+          <MobileInputText placeholder={'City'} {...registerMobile('city')}/>
+          <MobileInputText placeholder={'Street'} {...registerMobile('street')}/>
+          <MobileInputText placeholder={'Zip Code'} {...registerMobile('zipCode')}/>
+          <MobileButton text='Siguiente' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={send}></MobileButton>
         </View>
       </View>
     </View>

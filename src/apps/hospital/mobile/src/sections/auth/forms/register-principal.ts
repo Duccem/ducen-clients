@@ -1,4 +1,4 @@
-import { required } from '../../shared/validators/required';
+import { required } from 'ui';
 
 export const formRegisterPrincipal = {
   email: {

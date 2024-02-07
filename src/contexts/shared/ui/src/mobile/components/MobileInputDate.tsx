@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import DateTimePicker from 'react-native-ui-datepicker';
 
-export interface InputDateProps {
+export interface MobileInputDateProps {
   placeholder: string;
   onChange?: (...args: any) => void;
   onBlur?: (...args: any) => void;
@@ -12,7 +12,7 @@ export interface InputDateProps {
   required?: boolean;
 }
 
-export function InputDate({ placeholder, onChange, mode, onBlur, error, required }: InputDateProps) {
+export function MobileInputDate({ placeholder, onChange, mode, onBlur, error, required }: MobileInputDateProps) {
   const [date, setDate] = useState<Date | null>(null);
   const [open, setOpen] = useState(false);
   return (

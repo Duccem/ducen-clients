@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { MobileButton, MobileInputText, MobileSocialButton } from 'ui';
+import { Facebook } from '../../../modules/shared/components/icons/facebook';
+import { Google } from '../../../modules/shared/components/icons/google';
+import { XIcon } from '../../../modules/shared/components/icons/x';
 import { useUserContext } from '../../../modules/user/UserContext';
-import { Button } from '../../shared/components/Button';
-import { InputText } from '../../shared/components/InputText';
-import { SocialButton } from '../../shared/components/SocialButton';
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,7 +13,6 @@ export function Login() {
   const navigation = useNavigation();
   const makeLogin = async () => {
     if(email && password) {
-      console.log('logging in')
       await login(email, password);
       navigation.navigate('home' as never);
     }
@@ -25,9 +25,9 @@ export function Login() {
           <Text style={styles.subtitle}>Welcome to Ducen. Medical assistance everywhere</Text>
         </View>
         <View style={{ width: '100%', justifyContent: 'center', gap: 30 }}>
-          <InputText placeholder={'Email'} onChange={(value: string) => setEmail(value) }/>
-          <InputText placeholder={'Password'} secureTextEntry onChange={(value: string) => setPassword(value)}/>
-          <Button text='Iniciar Sesión' onPress={makeLogin}></Button>
+          <MobileInputText placeholder={'Email'} onChange={(value: string) => setEmail(value) }/>
+          <MobileInputText placeholder={'Password'} secureTextEntry onChange={(value: string) => setPassword(value)}/>
+          <MobileButton text='Iniciar Sesión' onPress={makeLogin}></MobileButton>
           <View style={{
             width: '100%',
             paddingHorizontal: '5%',
@@ -40,9 +40,9 @@ export function Login() {
           </View>
         </View>
         <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'center', gap: 10, marginTop: 50 }}>
-          <SocialButton icon='google'></SocialButton>
-          <SocialButton icon='facebook'></SocialButton>
-          <SocialButton icon='x'></SocialButton>
+          <MobileSocialButton icon={<Google size={30}/>}></MobileSocialButton>
+          <MobileSocialButton icon={<Facebook size={30}/>}></MobileSocialButton>
+          <MobileSocialButton icon={<XIcon size={3}/>}></MobileSocialButton>
         </View>
       </View>
     </View>

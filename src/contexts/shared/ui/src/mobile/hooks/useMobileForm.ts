@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import { useState } from 'react';
 
-export type InitialFormState = {
+type InitialFormState = {
   fields?: InitialFields;
   validateOn?: 'change' | 'blur' | 'all';
   resetOptions?: {
@@ -11,7 +11,7 @@ export type InitialFormState = {
   };
 };
 
-export type FormState = {
+type FormState = {
   fields: Fields;
   validateOn: 'change' | 'blur' | 'all';
   resetOptions: {
@@ -21,17 +21,17 @@ export type FormState = {
   };
 };
 
-export type InitialField = {
+type InitialField = {
   value: Value;
   error?: null | string;
   validators?: Validators;
 };
 
-export type InitialFields = {
+type InitialFields = {
   [x: string]: InitialField;
 };
 
-export type Field = {
+type Field = {
   value: Value;
   error: null | string;
   validators: Validators;
@@ -39,27 +39,27 @@ export type Field = {
   isTouched: boolean;
 };
 
-export type Fields = {
+type Fields = {
   [x: string]: Field;
 };
 
-export type Validator = (v: string) => null | string;
+type Validator = (v: string) => null | string;
 
-export type Validators = { [x: string]: Validator };
+type Validators = { [x: string]: Validator };
 
-export type Value = any;
+type Value = any;
 
-export type Values = {
+type Values = {
   [x: string]: Value;
 };
 
-export type Error = string | null;
+type Error = string | null;
 
-export type Errors = {
+type Errors = {
   [x: string]: Error;
 };
 
-export const useForm = (initialForm: InitialFormState = {}) => {
+export const useMobileForm = (initialForm: InitialFormState = {}) => {
   const [formState, setFormState] = useState(() => {
     const state: FormState = {
       fields: {},
@@ -302,4 +302,4 @@ export const useForm = (initialForm: InitialFormState = {}) => {
   };
 };
 
-export default useForm;
+export default useMobileForm;

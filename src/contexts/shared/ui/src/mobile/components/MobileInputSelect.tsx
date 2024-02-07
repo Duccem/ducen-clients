@@ -2,7 +2,7 @@ import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Text, View } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
-export interface InputSelectProps {
+export interface MobileInputSelectProps {
   placeholder: string;
   options: any[];
   onChange?: (...args: any) => void;
@@ -10,7 +10,7 @@ export interface InputSelectProps {
   error?: string;
   name?: string;
 }
-export function InputSelect({ placeholder, options, onChange, onBlur, error }: InputSelectProps) {
+export function MobileInputSelect({ placeholder, options, onChange, onBlur, error }: MobileInputSelectProps) {
   return (
     <View style={{
       backgroundColor: '#000',

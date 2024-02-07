@@ -1,6 +1,6 @@
 import { Pressable } from "react-native"
 
-export const FloatingButton = ({ children, onPress }: any) => {
+export const MobileFloatingButton = ({ children, onPress }: any) => {
   return (
     <Pressable onPress={onPress}
       style={
