@@ -2,13 +2,13 @@
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
-import { useAuthContext } from '../../../../modules/auth/AuthContext';
+import { useUserContext } from '../../../../modules/user/UserContext';
 import { Doctor } from '../../../_shared/components/icons/doctor';
 import { Heart } from '../../../_shared/components/icons/heart';
 
 export function TypeRegisterCards() {
   const navigate = useRouter();
-  const { setRegisterType, setPartialUser } = useAuthContext()
+  const { setRegisterType, setPartialUser } = useUserContext()
   const selectAndGoToRegister = (type: 'DOCTOR' | 'PATIENT') => {
     setRegisterType(type);
     setPartialUser({

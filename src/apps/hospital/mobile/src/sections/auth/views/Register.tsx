@@ -2,6 +2,7 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useNavigation } from "@react-navigation/native"
 import { StyleSheet, Text, View } from "react-native"
+import { useUserContext } from "../../../modules/user/UserContext"
 import { Back } from "../../shared/components/Back"
 import { Button } from "../../shared/components/Button"
 import { InputDate } from "../../shared/components/InputDate"
@@ -9,11 +10,10 @@ import { InputSelect } from "../../shared/components/InputSelect"
 import { InputText } from "../../shared/components/InputText"
 import useForm from "../../shared/hooks/useForm"
 import { formRegisterPrincipal } from "../forms/register-principal"
-import { useAuthContext } from "../state/AuthContext"
 const genders = ['MALE', 'FEMALE', 'OTHER'];
 export function Register() {
   const navigation = useNavigation();
-  const { setPartialUser } = useAuthContext();
+  const { setPartialUser } = useUserContext();
   const { registerMobile, handleSubmit } = useForm({
     fields: formRegisterPrincipal
   })

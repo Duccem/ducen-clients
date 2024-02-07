@@ -1,14 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useUserContext } from '../../../modules/user/UserContext';
 import { Button } from '../../shared/components/Button';
 import { InputText } from '../../shared/components/InputText';
 import { SocialButton } from '../../shared/components/SocialButton';
-import { useAuthContext } from '../state/AuthContext';
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useAuthContext();
+  const { login } = useUserContext();
   const navigation = useNavigation();
   const makeLogin = async () => {
     if(email && password) {

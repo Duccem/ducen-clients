@@ -1,5 +1,5 @@
 import { UuidMother } from 'core';
-import { JWTAuthService } from '../../../src/User/infrastructure/JWTAuthService';
+import { JWTAuthService } from '../../../src/User/infrastructure/service/JWTAuthService';
 import { UserMother } from '../domain/UserMother';
 
 describe('JWTAuthService', () => {

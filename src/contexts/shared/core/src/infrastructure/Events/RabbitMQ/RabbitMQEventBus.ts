@@ -1,6 +1,7 @@
 import { DomainEvent } from '../../../domain/DomainEvent';
 import { EventBus } from '../../../domain/DomainEventBus';
 import { DomainEventSubscriber } from '../../../domain/DomainEventSubscriber';
+import { Logger } from '../../../domain/Logger';
 import { DomainEventDeserializer } from '../DomainEventDeserializer';
 import { DomainEventFailOverPublisher } from '../DomainEventFailOverPublisher';
 import { DomainEventRegisterObservers } from '../DomainEventRegisterObservers';
@@ -14,6 +15,7 @@ export class RabbitMQEventBus implements EventBus {
   constructor(
     private failOverPublisher: DomainEventFailOverPublisher,
     private connection: RabbitMQConnection,
+    private logger?: Logger
   ) {}
 
   async configure(subscribers: DomainEventRegisterObservers): Promise<void> {
@@ -54,6 +56,7 @@ export class RabbitMQEventBus implements EventBus {
 
   async publish(events: DomainEvent[]): Promise<void> {
     for (const event of events) {
+      this.logger.log(event.eventName);
       try {
         const routingKey = event.eventName;
         const content = RabbitMQFormatter.toBuffer(event);
@@ -62,6 +65,7 @@ export class RabbitMQEventBus implements EventBus {
         await this.connection.publish(this.exchange, routingKey, content, options);
         await this.failOverPublisher.publish(event, true);
       } catch (error: any) {
+        this.logger.error(error);
         await this.failOverPublisher.publish(event, false);
       }
     }

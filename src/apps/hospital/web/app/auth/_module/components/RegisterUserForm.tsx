@@ -4,7 +4,7 @@ import { User } from 'hospital';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button, CheckInput, DateInput, Form, SelectInput, TextInput, useForm } from 'ui';
-import { useAuthContext } from '../../../../modules/auth/AuthContext';
+import { useUserContext } from '../../../../modules/user/UserContext';
 import { useCities } from '../../../_shared/hooks/useCities';
 import { useConfData } from '../../../_shared/hooks/useConfData';
 import { useCountries } from '../../../_shared/hooks/useCountries';
@@ -16,7 +16,7 @@ export function RegisterUserForm() {
   const [selectedCity, setSelectedCity] = useState('');
   const { cities } = useCities(selectedCity);
   const { latitude, longitude, lang, theme, timezone } = useConfData()
-  const { setPartialUser } = useAuthContext()
+  const { setPartialUser } = useUserContext()
   const { register, handleSubmit, handleChange, submitting } = useForm({
     validateOn: 'all',
     fields: RegisterForm,

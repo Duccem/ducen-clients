@@ -1,8 +1,8 @@
 import * as Localization from 'expo-localization';
 import { I18n } from 'i18n-js';
 import { createContext, useContext, useState } from "react";
-import * as en from '../../../../assets/locales/en.json';
-import * as es from '../../../../assets/locales/es.json';
+import * as en from '../../../assets/locales/en.json';
+import * as es from '../../../assets/locales/es.json';
 const translations = {es, en}
 
 export interface TranslateContextProps {

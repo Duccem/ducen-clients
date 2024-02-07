@@ -30,6 +30,7 @@ import { LoggerMiddleware } from './utils/middlewares/LoggerMiddleware';
       typePaths: ['./src/schemas/*.graphql'],
       formatError: GraphQLErrorHandling,
       useGlobalPrefix: true,
+      csrfPrevention: false,
     }),
   ],
   controllers: [...controllers],
@@ -44,7 +45,6 @@ import { LoggerMiddleware } from './utils/middlewares/LoggerMiddleware';
     EventSubscribers,
     ...busesProvider,
     ...resolvers,
-
   ],
 })
 export class AppModule implements NestModule {

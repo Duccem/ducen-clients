@@ -1,5 +1,5 @@
 export abstract class Uploader {
-  public abstract upload(file: string): Promise<UploaderResponse>;
+  public abstract upload(buffer: Buffer, name: string): Promise<UploaderResponse>;
 }
 
 export type UploaderResponse = {

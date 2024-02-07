@@ -1,6 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CommandBus, QueryBus } from 'core';
+import { CloudinaryUploader, CommandBus, QueryBus } from 'core';
+import { GraphQLUpload, Upload, UploadOptions } from 'graphql-upload-ts';
 import { ChangePasswordCommand, LoginQuery, RecoveryPasswordCommand, UserRegisterCommand } from 'hospital';
 
 @Resolver('User')
@@ -8,6 +9,7 @@ export class UserResolver {
   constructor(
     @Inject('QUERY_BUS') private queryBus: QueryBus,
     @Inject('COMMAND_BUS') private commandBus: CommandBus,
+    @Inject('UPLOADER_SERVICE') private uploader: CloudinaryUploader,
   ) {}
 
   @Mutation('userRegister')
@@ -39,5 +41,26 @@ export class UserResolver {
     const command = new ChangePasswordCommand(memberId, newPassword, oldPassword);
     await this.commandBus.dispatch(command);
     return null;
+  }
+
+  @Mutation('uploadImage')
+  async uploadImage(@Args({ name: 'file', type: () => GraphQLUpload }) image: Upload) {
+    const stream = image.file.createReadStream();
+    const buffer = (await new Promise((resolve) => {
+      const buffers: Buffer[] = [];
+      stream.on('data', (chunk) => {
+        if (typeof chunk === 'string') {
+          buffers.push(Buffer.from(chunk, 'utf-8'));
+        } else if (chunk instanceof Buffer) {
+          buffers.push(chunk);
+        } else {
+          const jsonData = JSON.stringify(chunk);
+          buffers.push(Buffer.from(jsonData, 'utf-8'));
+        }
+      });
+      stream.on('end', () => resolve(Buffer.concat(buffers)));
+    })) as Buffer;
+    const response = await this.uploader.upload(buffer, image.file.filename);
+    return response;
   }
 }

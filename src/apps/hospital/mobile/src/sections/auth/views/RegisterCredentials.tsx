@@ -2,15 +2,15 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useEffect } from "react"
 import { StyleSheet, Text, View } from "react-native"
+import { useUserContext } from "../../../modules/user/UserContext"
 import { Back } from "../../shared/components/Back"
 import { Button } from "../../shared/components/Button"
 import { InputText } from "../../shared/components/InputText"
 import useForm from "../../shared/hooks/useForm"
 import { formRegisterCredentials } from "../forms/register-credentials"
-import { useAuthContext } from "../state/AuthContext"
 
 export function RegisterCredentials() {
-  const { setPartialUser, authState: { user }, register } = useAuthContext();
+  const { setPartialUser, userState: { user }, register } = useUserContext();
   const { registerMobile, handleSubmit, setError } = useForm({
     fields: formRegisterCredentials
   })

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { AuthService } from '../domain/AuthService';
-import { User } from '../domain/User';
+import { AuthService } from '../../domain/AuthService';
+import { User } from '../../domain/User';
 
 export class JWTAuthService implements AuthService {
   constructor(private readonly secretKey: string) {}

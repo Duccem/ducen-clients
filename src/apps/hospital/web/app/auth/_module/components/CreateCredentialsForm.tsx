@@ -2,18 +2,18 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Button, Form, PasswordInput, useForm } from 'ui';
-import { useAuthContext } from '../../../../modules/auth/AuthContext';
+import { useUserContext } from '../../../../modules/user/UserContext';
 import { CredentialsForm } from '../forms/CredentialsForm';
 
 export function CreateCredentialsForm() {
   const location = useRouter();
-  const {  authState, register: registerUser, setPartialUser } = useAuthContext()
+  const {  userState, register: registerUser, setPartialUser } = useUserContext()
   const { register, handleSubmit, setError, submitting, setSubmitting } = useForm({
     validateOn: 'all',
     fields: CredentialsForm,
   });
   useEffect(() => {
-    if(authState.user.password !== '') {
+    if(userState.user.password !== '') {
       async function sendRegister() {
         setSubmitting(true);
         await registerUser();
@@ -21,7 +21,7 @@ export function CreateCredentialsForm() {
       }
       sendRegister();
     }
-  }, [authState.user.password]);
+  }, [userState.user.password]);
   async function handleCredentialsSubmit(e) {
     handleSubmit(
       e,
@@ -30,7 +30,7 @@ export function CreateCredentialsForm() {
           setPartialUser({
             password: password
           })
-          console.log(authState.user);
+          console.log(userState.user);
         }else {
           setError('newPassword', 'Passwords do not match');
         }

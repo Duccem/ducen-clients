@@ -1,6 +1,6 @@
 import { Criteria, MongoConnection, MongoRepository, Primitives, Uuid } from 'core';
-import { User } from '../domain/User';
-import { UserRepository } from '../domain/UserRepository';
+import { User } from '../../../domain/User';
+import { UserRepository } from '../../../domain/UserRepository';
 
 export class MongoUserRepository extends MongoRepository<User> implements UserRepository {
   constructor(connection: MongoConnection) {

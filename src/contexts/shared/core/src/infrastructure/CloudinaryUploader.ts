@@ -1,5 +1,5 @@
-import { v2 } from 'cloudinary/lib/cloudinary';
-import { unlinkSync } from 'fs';
+import { UploadApiResponse, v2 } from 'cloudinary';
+import { Readable } from 'stream';
 import { Uploader, UploaderResponse } from '../domain/Uploader';
 
 export class CloudinaryUploader implements Uploader {
@@ -10,9 +10,22 @@ export class CloudinaryUploader implements Uploader {
       api_secret: apiSecret,
     });
   }
-  async upload(file: string): Promise<UploaderResponse> {
-    const { public_id, url } = await v2.uploader.upload(file);
-    unlinkSync(file);
+  async upload(buffer: Buffer, name: string): Promise<UploaderResponse> {
+    const { public_id, secure_url: url } = await new Promise<UploadApiResponse>((resolve, reject) => {
+      const stream = v2.uploader.upload_stream(
+        {
+          folder: 'uploads',
+          filename_override: name,
+        },
+        (error, result) => {
+          if (error) {
+            return reject(error);
+          }
+          return resolve(result);
+        }
+      );
+      Readable.from(buffer).pipe(stream);
+    });
     return { remote_id: public_id, url };
   }
 }

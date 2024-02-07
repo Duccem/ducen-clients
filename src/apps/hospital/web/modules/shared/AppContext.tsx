@@ -1,6 +1,6 @@
-import { AuthProvider } from "../auth/AuthContext";
+import { UserProvider } from "../user/UserContext";
 import { combineComponents } from "./combinedContexts";
 
-const providers = [AuthProvider]
+const providers = [UserProvider]
 
 export const AppContextProvider = combineComponents(...providers);

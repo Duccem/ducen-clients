@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { Button, Form, PasswordInput, TextInput, useForm } from 'ui';
-import { useAuthContext } from '../../../../modules/auth/AuthContext';
+import { useUserContext } from '../../../../modules/user/UserContext';
 import { Login } from '../forms/Login';
 
 export function LoginForm() {
@@ -10,7 +10,7 @@ export function LoginForm() {
     validateOn: 'all',
     fields: Login,
   });
-  const { login } = useAuthContext();
+  const { login } = useUserContext();
   async function dispatchLogin(event: any) {
     handleSubmit(event, async ({ identifier, password }: any) => {
       try {
