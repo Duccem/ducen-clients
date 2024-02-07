@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Animated, Easing, StyleSheet, TextInput } from 'react-native';
-export type InputTextProps = {
+export type MobileInputTextProps = {
   placeholder: string,
   secureTextEntry?: boolean,
   onChange?: (text: string) => void,
@@ -9,7 +9,7 @@ export type InputTextProps = {
   value?: any,
   required?: boolean
 }
-export function InputText({ placeholder, secureTextEntry, onChange, onBlur, error, value, required }: InputTextProps) {
+export function MobileInputText({ placeholder, secureTextEntry, onChange, onBlur, error, value, required }: MobileInputTextProps) {
   const animatedValue = useRef(new Animated.Value(0));
   const [text, onChangeText] = useState('');
   const returnAnimatedTitleStyles = {

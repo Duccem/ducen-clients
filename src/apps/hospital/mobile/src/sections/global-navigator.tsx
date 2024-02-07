@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { AuthNavigator } from '../auth/auth-navigator';
-import { HomeNavigator } from '../home/home.navigator';
+import { AuthNavigator } from './auth/auth-navigator';
+import { HomeNavigator } from './home/home.navigator';
 
 const Stack = createNativeStackNavigator();
 export function GlobalNavigator() {

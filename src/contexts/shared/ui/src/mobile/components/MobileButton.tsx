@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-export function Button({ text, onPress, icon }: { text: string, onPress?: (...args: any[]) => void | Promise<void>, icon?: JSX.Element }) {
+export function MobileButton({ text, onPress, icon }: { text: string, onPress?: (...args: any[]) => void | Promise<void>, icon?: JSX.Element }) {
   return (
     <View style={styles.buttonBox}>
       <Pressable style={({pressed}) => [

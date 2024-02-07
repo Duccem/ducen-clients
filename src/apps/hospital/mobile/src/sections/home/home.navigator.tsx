@@ -1,7 +1,7 @@
 import { faChartSimple, faMoon, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FloatingButton } from '../shared/components/FloatingButton';
+import { MobileFloatingButton } from 'ui';
 import { Home } from "./views/Home";
 const Tab = createBottomTabNavigator();
 export function HomeNavigator() {
@@ -39,7 +39,7 @@ export function HomeNavigator() {
               <FontAwesomeIcon icon={faMoon} color={'#6C63FF'} size={size}/>
             ),
             tabBarButton: (props) => (
-              <FloatingButton {...props} />
+              <MobileFloatingButton {...props} />
             ),
 
           }}/>

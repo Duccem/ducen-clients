@@ -12,6 +12,6 @@
     "noEmit": true,
     "jsx": "react-jsx",
   },
-  "include": ["src"],
+  "include": ["src", ".storybook/example/Button.stories.ts", ".storybook/example/Button.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

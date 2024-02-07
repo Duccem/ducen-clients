@@ -2,19 +2,15 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useNavigation } from "@react-navigation/native"
 import { StyleSheet, Text, View } from "react-native"
+import { MobileButton, MobileInputDate, MobileInputSelect, MobileInputText, useMobileForm } from "ui"
+import { Back } from "../../../modules/shared/components/Back"
 import { useUserContext } from "../../../modules/user/UserContext"
-import { Back } from "../../shared/components/Back"
-import { Button } from "../../shared/components/Button"
-import { InputDate } from "../../shared/components/InputDate"
-import { InputSelect } from "../../shared/components/InputSelect"
-import { InputText } from "../../shared/components/InputText"
-import useForm from "../../shared/hooks/useForm"
 import { formRegisterPrincipal } from "../forms/register-principal"
 const genders = ['MALE', 'FEMALE', 'OTHER'];
 export function Register() {
   const navigation = useNavigation();
   const { setPartialUser } = useUserContext();
-  const { registerMobile, handleSubmit } = useForm({
+  const { registerMobile, handleSubmit } = useMobileForm({
     fields: formRegisterPrincipal
   })
 
@@ -51,12 +47,12 @@ export function Register() {
           <Text style={{ fontFamily: 'Nunito_500Medium' }}>Datos esenciales para saber quien eres.</Text>
         </View>
         <View style={{ width: '100%', gap: 30 }}>
-          <InputText placeholder={'Email'} required {...registerMobile('email')}/>
-          <InputText placeholder={'First name'} required {...registerMobile('firstName')}/>
-          <InputText placeholder={'Last name'} required {...registerMobile('lastName')}/>
-          <InputDate placeholder="Birth Date" required mode="date" {...registerMobile('birthDate')}/>
-          <InputSelect placeholder="Gender" options={genders} {...registerMobile('gender')}/>
-          <Button text='Siguiente' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={send}></Button>
+          <MobileInputText placeholder={'Email'} required {...registerMobile('email')}/>
+          <MobileInputText placeholder={'First name'} required {...registerMobile('firstName')}/>
+          <MobileInputText placeholder={'Last name'} required {...registerMobile('lastName')}/>
+          <MobileInputDate placeholder="Birth Date" required mode="date" {...registerMobile('birthDate')}/>
+          <MobileInputSelect placeholder="Gender" options={genders} {...registerMobile('gender')}/>
+          <MobileButton text='Siguiente' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={send}></MobileButton>
         </View>
       </View>
     </View>

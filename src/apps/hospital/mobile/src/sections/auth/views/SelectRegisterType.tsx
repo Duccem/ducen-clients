@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 import { useUserContext } from "../../../modules/user/UserContext";
-import { Back } from "../../shared/components/Back";
-import { SelectCard } from "../../shared/components/SelectCard";
-import { Doctor } from "../../shared/components/icons/doctor";
-import { Heart } from "../../shared/components/icons/heart";
+import { Back } from "../../../modules/shared/components/Back";
+import { SelectCard } from "../../../modules/shared/components/SelectCard";
+import { Doctor } from "../../../modules/shared/components/icons/doctor";
+import { Heart } from "../../../modules/shared/components/icons/heart";
 
 export function SelectRegisterType() {
   const { setRegisterType } = useUserContext();

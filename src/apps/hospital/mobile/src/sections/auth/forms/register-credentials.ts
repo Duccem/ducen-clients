@@ -1,5 +1,4 @@
-import { password } from '../../shared/validators/password';
-import { required } from '../../shared/validators/required';
+import { password, required } from 'ui';
 
 export const formRegisterCredentials = {
   password: {

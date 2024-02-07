@@ -2,16 +2,14 @@ import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useEffect } from "react"
 import { StyleSheet, Text, View } from "react-native"
+import { MobileButton, MobileInputText, useMobileForm } from "ui"
+import { Back } from "../../../modules/shared/components/Back"
 import { useUserContext } from "../../../modules/user/UserContext"
-import { Back } from "../../shared/components/Back"
-import { Button } from "../../shared/components/Button"
-import { InputText } from "../../shared/components/InputText"
-import useForm from "../../shared/hooks/useForm"
 import { formRegisterCredentials } from "../forms/register-credentials"
 
 export function RegisterCredentials() {
   const { setPartialUser, userState: { user }, register } = useUserContext();
-  const { registerMobile, handleSubmit, setError } = useForm({
+  const { registerMobile, handleSubmit, setError } = useMobileForm({
     fields: formRegisterCredentials
   })
 
@@ -50,9 +48,9 @@ export function RegisterCredentials() {
           <Text style={{ fontFamily: 'Nunito_500Medium' }}>Contraseña de seguridad</Text>
         </View>
         <View style={{ width: '100%', gap: 25 }}>
-          <InputText placeholder={'Password'} secureTextEntry {...registerMobile('password')}/>
-          <InputText placeholder={'Confirm Password'} secureTextEntry {...registerMobile('confirmPassword')}/>
-          <Button text='Finish' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={send}></Button>
+          <MobileInputText placeholder={'Password'} secureTextEntry {...registerMobile('password')}/>
+          <MobileInputText placeholder={'Confirm Password'} secureTextEntry {...registerMobile('confirmPassword')}/>
+          <MobileButton text='Finish' icon={<FontAwesomeIcon icon={faAngleRight} color={'#000'} size={30}/>} onPress={send}></MobileButton>
         </View>
       </View>
     </View>
