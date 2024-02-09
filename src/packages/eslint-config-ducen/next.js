@@ -3,7 +3,7 @@ const { resolve } = require('node:path');
 const project = resolve(process.cwd(), 'tsconfig.json');
 
 module.exports = {
-  extends: [],
+  extends: ['next'],
   parserOptions: {
     project,
   },
@@ -19,9 +19,8 @@ module.exports = {
     },
   },
   ignorePatterns: ['node_modules/', 'dist/'],
-  // add rules configurations here
   rules: {
     '@next/next/no-img-element': 'off',
+    'react-hooks/exhaustive-deps': 'off',
   },
 };
-

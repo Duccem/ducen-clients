@@ -1,3 +1,4 @@
+import { ConsumeMessage } from 'amqplib';
 import { DomainEvent } from '../../../domain/DomainEvent';
 import { EventBus } from '../../../domain/DomainEventBus';
 import { DomainEventSubscriber } from '../../../domain/DomainEventSubscriber';
@@ -11,12 +12,15 @@ import { RabbitMQFormatter } from './RabbitMQFormatter';
 
 export class RabbitMQEventBus implements EventBus {
   private deserializer?: DomainEventDeserializer;
-  private exchange = 'ducen_events';
+  private exchange = 'domain_events';
   constructor(
     private failOverPublisher: DomainEventFailOverPublisher,
     private connection: RabbitMQConnection,
-    private logger?: Logger
-  ) {}
+    private vendor: string,
+    private logger: Logger
+  ) {
+    this.exchange = `${this.vendor}.domain_events`;
+  }
 
   async configure(subscribers: DomainEventRegisterObservers): Promise<void> {
     const retryExchange = RabbitMQFormatter.formatExchangeRetryName(this.exchange);
@@ -40,7 +44,7 @@ export class RabbitMQEventBus implements EventBus {
     const retryQueue = RabbitMQFormatter.formatQueueRetry(subscriber);
 
     await this.connection.queue(exchange, queue, routingKeys);
-    await this.connection.queue(retryExchange, retryQueue, [queue], exchange, queue, 1000);
+    await this.connection.queue(retryExchange, retryQueue, [queue], exchange, queue, 3000);
     await this.connection.queue(deadLetterExchange, deadLetterQueue, [queue]);
   }
 
@@ -50,13 +54,18 @@ export class RabbitMQEventBus implements EventBus {
     for (const subscriber of subscribers.subscribers) {
       const queueName = RabbitMQFormatter.formatQueue(subscriber);
       const consumer = new RabbitMQConsumer(subscriber, this.connection, this.deserializer, queueName, this.exchange, 10);
-      await this.connection.consume(queueName, consumer.onMessage.bind(consumer));
+      await this.connection.consume(queueName, async (message: ConsumeMessage) => {
+        try {
+          await consumer.onMessage(message);
+        } catch (error) {
+          this.logger.error(`Error consuming event ${message.fields.routingKey}, the error was ${error}`);
+        }
+      });
     }
   }
 
   async publish(events: DomainEvent[]): Promise<void> {
     for (const event of events) {
-      this.logger.log(event.eventName);
       try {
         const routingKey = event.eventName;
         const content = RabbitMQFormatter.toBuffer(event);
@@ -64,8 +73,8 @@ export class RabbitMQEventBus implements EventBus {
 
         await this.connection.publish(this.exchange, routingKey, content, options);
         await this.failOverPublisher.publish(event, true);
-      } catch (error: any) {
-        this.logger.error(error);
+      } catch (error) {
+        this.logger.error(`Error publishing event ${event.eventName} with aggregateId ${event.aggregateId}, the error was ${error}`);
         await this.failOverPublisher.publish(event, false);
       }
     }

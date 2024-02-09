@@ -19,30 +19,23 @@ export class RabbitMQFormatter {
   }
 
   static formatExchangeRetryName(exchange: string): string {
-    return `retry_${exchange}`;
+    return `${exchange}.retry`;
   }
 
   static formatExchangeDeadLetterName(exchange: string): string {
-    return `dead_letter_${exchange}`;
+    return `${exchange}.dead_letter`;
   }
 
   static formatQueue(subscriber: DomainEventSubscriber) {
-    const value = subscriber.constructor.name;
-    const name = value
-      .split(/(?=[A-Z])/)
-      .join('_')
-      .toLowerCase();
-    return `ducen.${name}`;
+    return `${subscriber.name()}`;
   }
 
   static formatQueueRetry(subscriber: DomainEventSubscriber) {
-    const name = this.formatQueue(subscriber);
-    return `retry.${name}`;
+    return `${subscriber.name()}.retry`;
   }
 
   static formatQueueDeadLetter(subscriber: DomainEventSubscriber) {
-    const name = this.formatQueue(subscriber);
-    return `dead_letter.${name}`;
+    return `${subscriber.name()}.dead_letter`;
   }
 
   static eventOptions(event: DomainEvent) {

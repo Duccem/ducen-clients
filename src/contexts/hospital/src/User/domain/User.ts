@@ -1,4 +1,4 @@
-import { Aggregate, DateValueObject, Email, Image, Primitives, Uuid } from 'core';
+import { Aggregate, BooleanValueObject, DateValueObject, Email, Image, Primitives, Uuid } from 'core';
 import { IncorrectPassword } from './IncorrectPassword';
 import { UserAddress } from './UserAddress';
 import { UserBirthDate } from './UserBirthDate';
@@ -23,6 +23,7 @@ export class User extends Aggregate {
     public photo: Image,
     public gender: UserGender,
     public configuration: UserConfiguration,
+    public isActive: BooleanValueObject,
     createdAt?: DateValueObject,
     updatedAt?: DateValueObject
   ) {
@@ -42,6 +43,7 @@ export class User extends Aggregate {
       new Image(data.photo),
       new UserGender(data.gender),
       UserConfiguration.fromPrimitives(data.configuration),
+      new BooleanValueObject(data.isActive),
       new DateValueObject(data.createdAt || new Date()),
       new DateValueObject(data.updatedAt || new Date())
     );
@@ -59,6 +61,7 @@ export class User extends Aggregate {
       photo: this.photo.value,
       gender: this.gender.value,
       configuration: this.configuration.toPrimitives(),
+      isActive: this.isActive.value,
       createdAt: this.createdAt.value,
       updatedAt: this.updatedAt.value,
     };
@@ -88,9 +91,7 @@ export class User extends Aggregate {
       timezone: string;
       lang: string;
       theme: string;
-    },
-    createdAt?: Date,
-    updatedAt?: Date
+    }
   ): User {
     const user = new User(
       new Uuid(id),
@@ -104,8 +105,9 @@ export class User extends Aggregate {
       new Image(photo),
       new UserGender(gender as UserGenders),
       UserConfiguration.fromPrimitives(configuration),
-      new DateValueObject(createdAt || new Date()),
-      new DateValueObject(updatedAt || new Date())
+      new BooleanValueObject(false),
+      new DateValueObject(new Date()),
+      new DateValueObject(new Date())
     );
     user.record(
       new UserCreated({

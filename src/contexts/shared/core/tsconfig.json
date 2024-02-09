@@ -4,6 +4,7 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "skipDefaultLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
     "lib": [
       "es6"
@@ -22,6 +23,7 @@
     "types": [
       "node",
       "jest"
-    ]
+    ],
   },
+  "exclude": ["node_modules", "dist", "tests"]
 }

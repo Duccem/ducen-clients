@@ -4,10 +4,11 @@ import {
   DomainEventFailOverPublisher,
   InMemoryCommandBus,
   InMemoryQueryBus,
+  Logger,
   MongoConnection,
   QueryHandlers,
   RabbitMQConnection,
-  RabbitMQEventBus
+  RabbitMQEventBus,
 } from 'core';
 import { commandHandlersRegister } from './commandHandlers.provider';
 import { queryHandlersRegister } from './queryHandlers.provider';
@@ -15,10 +16,10 @@ import { queryHandlersRegister } from './queryHandlers.provider';
 export const busesProvider: Provider[] = [
   {
     provide: 'EVENT_BUS',
-    inject: ['QUEUE_CONNECTION', 'DATABASE_CONNECTION'],
-    useFactory: (qConnection: RabbitMQConnection, dbConnection: MongoConnection) => {
+    inject: ['QUEUE_CONNECTION', 'DATABASE_CONNECTION', 'LOGGER_SERVICE'],
+    useFactory: (qConnection: RabbitMQConnection, dbConnection: MongoConnection, logger: Logger) => {
       const failoverPublisher = new DomainEventFailOverPublisher(dbConnection);
-      const eventBus = new RabbitMQEventBus(failoverPublisher, qConnection);
+      const eventBus = new RabbitMQEventBus(failoverPublisher, qConnection, 'ducen', logger);
       return eventBus;
     },
   },

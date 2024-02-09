@@ -26,8 +26,8 @@ export const connections: Provider[] = [
   {
     provide: 'CACHE_CONNECTION',
     inject: ['CACHE_CONFIGURATION'],
-    useFactory: async (cacheConf: any) => {
-      const client = createClient({ url: cacheConf.uri });
+    useFactory: async (configuration: any) => {
+      const client = createClient({ url: configuration.uri });
       await client.connect();
       return new RedisConnection(client);
     },

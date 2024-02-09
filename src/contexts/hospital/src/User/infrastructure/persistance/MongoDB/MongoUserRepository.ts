@@ -1,10 +1,10 @@
-import { Criteria, MongoConnection, MongoRepository, Primitives, Uuid } from 'core';
+import { Criteria, Logger, MongoConnection, MongoRepository, Primitives, Uuid } from 'core';
 import { User } from '../../../domain/User';
 import { UserRepository } from '../../../domain/UserRepository';
 
 export class MongoUserRepository extends MongoRepository<User> implements UserRepository {
-  constructor(connection: MongoConnection) {
-    super(connection, User);
+  constructor(connection: MongoConnection, logger: Logger) {
+    super(User, connection, logger);
   }
 
   async save(id: Uuid, aggregate: User): Promise<void> {
@@ -17,8 +17,7 @@ export class MongoUserRepository extends MongoRepository<User> implements UserRe
   }
 
   async listUsersByCriteria(criteria?: Criteria): Promise<User[]> {
-    const { filter, limit, skip, sort } = this.converter.Criteria(criteria);
-    const users = await this.collection.find<Primitives<User>>(filter).sort(sort).skip(skip).limit(limit).toArray();
+    const users = await this.searchByCriteria(criteria);
     return users.map((user) => User.fromPrimitives(user));
   }
 }

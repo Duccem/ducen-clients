@@ -26,13 +26,13 @@ jobs:
   avoid_trigger_on_service:
     runs-on: ubuntu-22.04
     name: Cancel workflow
-    if: ${{ contains(github.event.head_commit.message, '[api]') }}
+    if: ${{ contains(github.event.head_commit.message, 'ws:api') }}
     steps:
-      - name: Cancel workflow
+      - name: Cancel workflow ❌
         run: echo "Cancel workflow"
-  lint:
+  build:
     needs: [avoid_trigger_on_service]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -41,72 +41,35 @@ jobs:
         with:
           cache: 'npm'
           node-version: '16.14.2'
-      - name: Install dependencies
+      - name: Install dependencies 📦
         run: npm ci --loglevel=error
-      - name: Lint
+      - name: Lint 🔍
         run: npm run lint -w api
-  sonar:
-    needs: [avoid_trigger_on_service]
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
+      - name: SonarCloud Scan 📊
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ github.token }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           projectBaseDir: src/apps/hospital/api
-  build:
-    needs: [avoid_trigger_on_service]
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          cache: 'npm'
-          node-version: '16.14.2'
-      - name: Install dependencies
-        run: npm ci --loglevel=error
-      - name: Build
+      - name: Build 🏗️
         run: npm run build -w api
-  test:
-    needs: [lint, build, sonar]
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          cache: 'npm'
-          node-version: '16.14.2'
-      - name: Install dependencies
-        run: npm ci --loglevel=error
-      - name: Build core
-        run: npm run build -w core
-      - name: Build hospital
-        run: npm run build -w hospital
-      - name: Create env file
+      - name: Create env file for E2E tests 🧪
         run: |
             cd ./src/apps/hospital/api/src/
             mkdir environments
             cd environments
             touch dev.env
             echo "${{ secrets.DEV_ENV }}" | base64 --decode > dev.env
-      - name: E2E tests
+      - name: E2E tests 🧪
         uses: cypress-io/github-action@v2
         with:
           command: npm run test -w api
           start: npm run start:dev -w api
           wait-on: 'http://localhost:3000/api/health'
   deploy:
-    needs: [test]
-    runs-on: ubuntu-22.04
+    needs: [build]
+    runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
     steps:
       - name: Deploiy

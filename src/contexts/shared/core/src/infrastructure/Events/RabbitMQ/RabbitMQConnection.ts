@@ -2,16 +2,12 @@ import { ConfirmChannel, Connection, ConsumeMessage } from 'amqplib';
 import { RabbitMQFormatter } from './RabbitMQFormatter';
 
 export class RabbitMQConnection {
-  private channel?: ConfirmChannel;
-  constructor(
-    channel: ConfirmChannel,
-    private readonly connection: Connection,
-  ) {
+  constructor(private readonly channel: ConfirmChannel, private readonly connection: Connection) {
     this.channel = channel;
   }
 
   async exchange(name: string) {
-    return await this.channel?.assertExchange(name, 'topic', { durable: true });
+    return await this.channel.assertExchange(name, 'topic', { durable: true });
   }
 
   async queue(exchange: string, name: string, routingKeys: string[], dlExchange?: string, dlQueue?: string, messageTtl?: number) {
@@ -20,7 +16,7 @@ export class RabbitMQConnection {
       deadLetterQueue: dlQueue,
       messageTtl,
     });
-    await this.channel?.assertQueue(name, {
+    await this.channel.assertQueue(name, {
       exclusive: false,
       durable: true,
       autoDelete: false,
@@ -28,18 +24,18 @@ export class RabbitMQConnection {
     });
 
     for (const routingKey of routingKeys) {
-      await this.channel?.bindQueue(name, exchange, routingKey);
+      await this.channel.bindQueue(name, exchange, routingKey);
     }
   }
 
   async publish(exchange: string, routingKey: string, content: Buffer, options: any) {
     return new Promise<void>((resolve, reject) => {
-      this.channel?.publish(exchange, routingKey, content, options, (error) => (error ? reject(error) : resolve()));
+      this.channel.publish(exchange, routingKey, content, options, (error) => (error ? reject(error) : resolve()));
     });
   }
 
   async consume(queue: string, onMessage: (message: ConsumeMessage) => void) {
-    await this.channel?.consume(queue, (message: ConsumeMessage | null) => {
+    await this.channel.consume(queue, (message: ConsumeMessage | null) => {
       if (!message) {
         return;
       }
@@ -48,11 +44,11 @@ export class RabbitMQConnection {
   }
 
   async ack(message: ConsumeMessage) {
-    this.channel?.ack(message);
+    this.channel.ack(message);
   }
 
   async deleteQueue(queue: string) {
-    return await this.channel!.deleteQueue(queue);
+    return await this.channel.deleteQueue(queue);
   }
 
   async retry(message: ConsumeMessage, queue: string, exchange: string) {
@@ -97,7 +93,7 @@ export class RabbitMQConnection {
   }
 
   async close() {
-    await this.channel?.close();
+    await this.channel.close();
     await this.connection.close();
   }
 }

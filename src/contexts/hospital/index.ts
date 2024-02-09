@@ -10,6 +10,7 @@ export * from './src/User/application/RecoveryPassword/RecoveryPasswordHandler';
 export * from './src/User/application/RegisterUser/UserRegisterCommand';
 export * from './src/User/application/RegisterUser/UserRegisterHandler';
 export * from './src/User/application/RegisterUser/UserRegistrar';
+export * from './src/User/application/SendWelcomeEmail/SendWelcomeEmailSubscriber';
 export * from './src/User/domain/AuthService';
 export * from './src/User/domain/IdentifyBy';
 export * from './src/User/domain/IncorrectPassword';

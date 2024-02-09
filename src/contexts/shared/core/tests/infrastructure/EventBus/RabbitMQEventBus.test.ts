@@ -1,4 +1,5 @@
 import { DomainEvent } from '../../../src/domain/DomainEvent';
+import { CustomLogger } from '../../../src/infrastructure/CustomLogger';
 import { DomainEventDeserializer } from '../../../src/infrastructure/Events/DomainEventDeserializer';
 import { DomainEventFailOverPublisher } from '../../../src/infrastructure/Events/DomainEventFailOverPublisher';
 import { DomainEventRegisterObservers } from '../../../src/infrastructure/Events/DomainEventRegisterObservers';
@@ -35,7 +36,7 @@ describe('RabbitMQEventBus test', () => {
     it('should use the failover publisher if publish to RabbitMQ fails', async () => {
       const connection = RabbitMQConnectionMother.failOnPublish();
       const failoverPublisher = DomainEventFailoverPublisherMother.failOverDouble();
-      const eventBus = new RabbitMQEventBus(failoverPublisher, connection);
+      const eventBus = new RabbitMQEventBus(failoverPublisher, connection, 'test', new CustomLogger());
       const event = DomainEventDummyMother.random();
 
       await eventBus.publish([event]);
@@ -65,7 +66,7 @@ describe('RabbitMQEventBus test', () => {
     });
 
     it('should consume the events published to RabbitMQ', async () => {
-      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection);
+      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new CustomLogger());
       await eventBus.addSubscribers(new DomainEventRegisterObservers([dummySubscriber]));
       const event = DomainEventDummyMother.random();
 
@@ -76,7 +77,7 @@ describe('RabbitMQEventBus test', () => {
 
     it('should retry failed domain events', async () => {
       dummySubscriber = DomainEventSubscriberDummy.failsFirstTime();
-      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection);
+      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new CustomLogger());
       await eventBus.addSubscribers(new DomainEventRegisterObservers([dummySubscriber]));
       const event = DomainEventDummyMother.random();
 
@@ -86,7 +87,7 @@ describe('RabbitMQEventBus test', () => {
 
     it('it should send events to dead letter after retry failed', async () => {
       dummySubscriber = DomainEventSubscriberDummy.alwaysFails();
-      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection);
+      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new CustomLogger());
       await eventBus.addSubscribers(new DomainEventRegisterObservers([dummySubscriber]));
       const event = DomainEventDummyMother.random();
 

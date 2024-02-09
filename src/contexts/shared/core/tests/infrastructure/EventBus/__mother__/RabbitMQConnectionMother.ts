@@ -11,6 +11,6 @@ export class RabbitMQConnectionMother {
   }
 
   static failOnPublish() {
-    return new RabbitMQConnectionDouble(null as ConfirmChannel, null as Connection);
+    return new RabbitMQConnectionDouble(null as unknown as ConfirmChannel, null as unknown as Connection);
   }
 }

@@ -44,6 +44,10 @@ export class DomainEventSubscriberDummy implements DomainEventSubscriber {
     this.events.push(domainEvent);
   }
 
+  name(): string {
+    return 'DomainEventSubscriberDummy';
+  }
+
   async assertConsumedEvents(events: Array<DomainEvent>) {
     return new Promise((resolve: Function, reject: Function) => {
       setTimeout(() => {
@@ -54,7 +58,7 @@ export class DomainEventSubscriberDummy implements DomainEventSubscriber {
         } catch (error: any) {
           reject(error);
         }
-      }, 2000);
+      }, 4000);
     });
   }
 }

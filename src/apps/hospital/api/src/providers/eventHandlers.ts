@@ -1,9 +1,10 @@
 import { Provider } from '@nestjs/common';
 import { DomainEventRegisterObservers, DomainEventSubscriber } from 'core';
+import { SendWelcomeEmailSubscriber } from 'hospital';
 
-export const eventHandlers: Provider[] = [];
+export const eventHandlers: Provider[] = [SendWelcomeEmailSubscriber];
 
-export const eventHandlersRegister = [];
+export const eventHandlersRegister = [SendWelcomeEmailSubscriber];
 
 export const EventSubscribers = {
   provide: 'EVENT_SUBSCRIBERS',

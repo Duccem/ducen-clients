@@ -4,4 +4,6 @@ export interface DomainEventSubscriber {
   subscribedTo(): Array<DomainEventClass>;
 
   on(domainEvent: DomainEvent): Promise<void>;
+
+  name(): string;
 }
