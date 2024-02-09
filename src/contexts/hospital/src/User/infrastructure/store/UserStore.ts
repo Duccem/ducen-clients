@@ -36,6 +36,7 @@ export const initialUserState: UserState = {
     role: UserRoles.PATIENT,
     phoneNumber: '',
     gender: UserGenders.MALE,
+    isActive: false,
     address: {
       country: '',
       city: '',

@@ -10,13 +10,15 @@
     "build:back": "tsc --project tsconfig.back.json",
     "build:watch:back": "tsc -w --project tsconfig.back.json",
     "build:watch:front": "tsc -w --project tsconfig.json",
-    "test": "jest"
+    "lint": "eslint \"{src,test}/**/*.ts\" --fix",
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@apollo/client": "^3.8.3",
     "@paypal/checkout-server-sdk": "^1.0.3",
     "bcryptjs": "^2.4.3",
     "core": "^0.0.0",
+    "eslint-config-ducen": "^0.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.0.0",
     "stripe": "^13.4.0",

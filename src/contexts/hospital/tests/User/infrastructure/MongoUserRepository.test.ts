@@ -1,4 +1,4 @@
-import { MongoArranger, MongoConnection, MongoConnectionMother, UuidMother } from 'core';
+import { CustomLogger, MongoArranger, MongoConnection, MongoConnectionMother, UuidMother } from 'core';
 import { IdentifyBy } from '../../../src/User/domain/IdentifyBy';
 import { UserRepository } from '../../../src/User/domain/UserRepository';
 import { MongoUserRepository } from '../../../src/User/infrastructure/persistance/MongoDB/MongoUserRepository';
@@ -12,7 +12,7 @@ describe('MongoUserRepository', () => {
   beforeAll(async () => {
     connection = await MongoConnectionMother.create();
     arranger = new MongoArranger(connection);
-    userRepository = new MongoUserRepository(connection);
+    userRepository = new MongoUserRepository(connection, new CustomLogger());
   });
 
   afterAll(async () => {

@@ -4,7 +4,7 @@ import { RabbitMQConnectionDouble } from '../__mocks__/RabbitMQConnectionDouble'
 
 export class RabbitMQConnectionMother {
   static async create() {
-    const connection = await connect('amqp://localhost:5672');
+    const connection = await connect(process.env['RABBIT' + '_MQ' + '_URL'] || 'amqp://localhost:5672');
     const channel = await connection.createConfirmChannel();
     await channel.prefetch(1);
     return new RabbitMQConnection(channel, connection);

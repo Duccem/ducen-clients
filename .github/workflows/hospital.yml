@@ -1,15 +1,15 @@
-name: Core CI
+name: Hospital CI
 
 on:
   push:
     branches: [main]
     paths:
-      - "src/contexts/shared/core/**"
+      - "src/contexts/hospital/**"
   pull_request:
     branches: [main]
     types: [opened,synchronize,reopened]
     paths:
-      - "src/contexts/shared/core/**"
+      - "src/contexts/hospital/**"
   workflow_dispatch:
 jobs:
   avoid_reduncy:
@@ -35,9 +35,9 @@ jobs:
       - name: Install dependencies 📦
         run: npm ci --loglevel=error
       - name: Lint 🖌️
-        run: npm run lint -w core
+        run: npm run lint -w hospital
       - name: Build 🏗️
-        run: npm run build -w core
+        run: npm run build -w hospital
       - name: Test 🧪
-        run: docker-compose run --rm test-core
+        run: docker-compose run --rm test-hospital
 

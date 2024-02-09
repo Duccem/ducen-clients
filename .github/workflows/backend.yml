@@ -10,10 +10,6 @@ on:
     types: [opened,synchronize,reopened]
     paths:
       - "src/apps/hospital/api/**"
-  workflow_run:
-    workflows: ["Core CI"]
-    types:
-      - completed
   workflow_dispatch:
 jobs:
   avoid_reduncy:
@@ -23,15 +19,7 @@ jobs:
         uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
-  avoid_trigger_on_service:
-    runs-on: ubuntu-22.04
-    name: Cancel workflow
-    if: ${{ contains(github.event.head_commit.message, 'ws:api') }}
-    steps:
-      - name: Cancel workflow ❌
-        run: echo "Cancel workflow"
   build:
-    needs: [avoid_trigger_on_service]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -45,33 +33,25 @@ jobs:
         run: npm ci --loglevel=error
       - name: Lint 🔍
         run: npm run lint -w api
-      - name: SonarCloud Scan 📊
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ github.token }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: src/apps/hospital/api
       - name: Build 🏗️
-        run: npm run build -w api
+        run: |
+            npm run build -w core
+            npm run build:back -w hospital
+            npm run build -w api
       - name: Create env file for E2E tests 🧪
         run: |
-            cd ./src/apps/hospital/api/src/
-            mkdir environments
-            cd environments
-            touch dev.env
-            echo "${{ secrets.DEV_ENV }}" | base64 --decode > dev.env
+            cd ./src/apps/hospital/api/src/environments
+            touch test.env
+            echo "${{ secrets.DEV_ENV }}" | base64 --decode > test.env
+      - name: Start Docker Compose 🐳
+        run: docker-compose run --rm -d --service-ports test-hospital-api
       - name: E2E tests 🧪
-        uses: cypress-io/github-action@v2
-        with:
-          command: npm run test -w api
-          start: npm run start:dev -w api
-          wait-on: 'http://localhost:3000/api/health'
-  deploy:
-    needs: [build]
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-    steps:
-      - name: Deploiy
-        run: echo "Deploying..."
+        run: npm run test -w api
+  # deploy:
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+  #   steps:
+  #     - name: Deploiy
+  #       run: echo "Deploying..."
 

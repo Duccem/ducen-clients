@@ -12,7 +12,7 @@ export class MongoUserRepository extends MongoRepository<User> implements UserRe
   }
   async getUserByCriteria(criteria: Criteria): Promise<User> {
     const { filter } = this.converter.Criteria(criteria);
-    let user = await this.collection.findOne<Primitives<User>>(filter);
+    const user = await this.collection.findOne<Primitives<User>>(filter);
     return user ? User.fromPrimitives(user) : null;
   }
 

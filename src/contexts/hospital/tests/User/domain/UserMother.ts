@@ -23,6 +23,7 @@ export class UserMother {
       updatedAt: DateValueObject.today().value,
       role: UserRole.doctor().value,
       phoneNumber: UserDataMother.phoneNumber(),
+      isActive: false,
       configuration: {
         lang: WordMother.random({ maxLength: 2 }),
         timezone: WordMother.timezone(),

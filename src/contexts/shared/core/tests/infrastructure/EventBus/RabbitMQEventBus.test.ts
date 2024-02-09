@@ -66,6 +66,7 @@ describe('RabbitMQEventBus test', () => {
     });
 
     it('should consume the events published to RabbitMQ', async () => {
+      dummySubscriber = new DomainEventSubscriberDummy();
       const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new CustomLogger());
       await eventBus.addSubscribers(new DomainEventRegisterObservers([dummySubscriber]));
       const event = DomainEventDummyMother.random();

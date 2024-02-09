@@ -29,7 +29,6 @@ export * from './src/User/domain/UserPassword';
 export * from './src/User/domain/UserPhoneNumber';
 export * from './src/User/domain/UserRepository';
 export * from './src/User/domain/UserRole';
-export * from './src/User/domain/UserService';
 export * from './src/User/infrastructure/persistance/Apollo/ApolloUserRepository';
 export * from './src/User/infrastructure/persistance/Apollo/login';
 export * from './src/User/infrastructure/persistance/Apollo/register';

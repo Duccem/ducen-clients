@@ -12,14 +12,12 @@ export function getEnv() {
     case 'dev':
       env = 'dev.env';
       break;
-    case 'testing':
-      env = 'testing.env';
+    case 'test':
+      env = 'test.env';
       break;
     case 'local':
       env = 'local.env';
       break;
-    case 'docker':
-      env = 'docker.env';
   }
 
   const path = resolve(process.cwd(), 'src/environments', env);

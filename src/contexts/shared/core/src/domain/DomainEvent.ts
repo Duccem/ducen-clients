@@ -1,6 +1,6 @@
 export abstract class DomainEvent {
   static EVENT_NAME: string;
-  static fromPrimitives: (...args: unknown[]) => DomainEvent;
+  static fromPrimitives: (params: any) => DomainEvent;
   readonly aggregateId: string;
   readonly eventId: string;
   readonly occurredOn: Date;
@@ -16,4 +16,4 @@ export abstract class DomainEvent {
   public abstract toPrimitive(): any;
 }
 
-export type DomainEventClass = { EVENT_NAME: string; fromPrimitives(...args: unknown[]): DomainEvent };
+export type DomainEventClass = { EVENT_NAME: string; fromPrimitives(params: any): DomainEvent };

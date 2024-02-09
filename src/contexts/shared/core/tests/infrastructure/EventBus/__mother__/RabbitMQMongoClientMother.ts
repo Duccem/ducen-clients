@@ -3,7 +3,7 @@ import { MongoConnection } from '../../../../src/infrastructure/Persistence/Mong
 
 export class RabbitMQMongoClientMother {
   static async create() {
-    const client = await MongoClient.connect('mongodb://localhost:27017/test-ducen');
+    const client = await MongoClient.connect(process.env['MONGO' + '_DB' + '_URL'] || 'mongodb://localhost:27017/test-ducen');
     return new MongoConnection(client);
   }
 

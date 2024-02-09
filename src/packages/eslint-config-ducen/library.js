@@ -12,5 +12,9 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/ban-types': 'off',
   },
+  globals: {
+    React: true,
+    JSX: true,
+  },
   ignorePatterns: ['.eslintrc.js', 'dist/', 'node_modules/'],
 };

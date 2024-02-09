@@ -91,7 +91,9 @@ export class User extends Aggregate {
       timezone: string;
       lang: string;
       theme: string;
-    }
+    },
+    createdAt?: Date,
+    updatedAt?: Date
   ): User {
     const user = new User(
       new Uuid(id),
@@ -106,8 +108,8 @@ export class User extends Aggregate {
       new UserGender(gender as UserGenders),
       UserConfiguration.fromPrimitives(configuration),
       new BooleanValueObject(false),
-      new DateValueObject(new Date()),
-      new DateValueObject(new Date())
+      new DateValueObject(createdAt || new Date()),
+      new DateValueObject(updatedAt || new Date())
     );
     user.record(
       new UserCreated({
