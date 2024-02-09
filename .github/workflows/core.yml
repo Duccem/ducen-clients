@@ -36,13 +36,13 @@ jobs:
         run: npm ci --loglevel=error
       - name: Lint 🖌️
         run: npm run lint -w core
-      # - name: SonarCloud Scan 📊
-      #   uses: SonarSource/sonarcloud-github-action@master
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      #   with:
-      #     projectBaseDir: src/contexts/shared/core
+      - name: SonarCloud Scan 📊
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: src/contexts/shared/core
       - name: Build 🏗️
         run: npm run build -w core
       - name: Test 🧪
