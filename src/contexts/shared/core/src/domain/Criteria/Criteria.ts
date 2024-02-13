@@ -35,18 +35,24 @@ export class Criteria {
     };
   }
 
-  public static fromValues(filters: Array<FilterType>, orderBy: string, order: string, limit: string, offset: string): Criteria {
+  public static fromValues(
+    filters: Array<FilterType>,
+    orderBy?: string,
+    order?: string,
+    limit?: string,
+    offset?: string
+  ): Criteria {
     const query = {
       filters: Criteria.parseFilters(filters),
-      orderBy,
-      order,
+      orderBy: orderBy ? orderBy : undefined,
+      order: order ? order : undefined,
       limit: limit ? Number(limit) : undefined,
       offset: offset ? Number(offset) : undefined,
     };
     return new Criteria(
       Filters.fromValues(query.filters),
       Order.fromValues(query.orderBy, query.order),
-      Paginator.fromValues(query.limit, query.offset),
+      Paginator.fromValues(query.limit, query.offset)
     );
   }
 
