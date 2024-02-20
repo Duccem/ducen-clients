@@ -1,6 +1,6 @@
-import { Error } from '../Error';
+import { DomainError } from '../DomainError';
 
-export class NotFoundError extends Error {
+export class NotFoundError extends DomainError {
   constructor(message: string) {
     super(message, 404);
   }

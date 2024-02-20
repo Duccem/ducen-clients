@@ -68,15 +68,11 @@ export class NetTracer {
   private static responseTime(digits: number, request: any, response: any): string {
     digits = digits || 3;
     if (!response._startTime) response._startTime = process.hrtime();
-    const elapsedTimeInMs = ((response._startTime[0] - request._startTime[0]) * 1e3 + (response._startTime[1] - request._startTime[1]) / 1e6).toFixed(
-      digits,
-    );
+    const elapsedTimeInMs = (
+      (response._startTime[0] - request._startTime[0]) * 1e3 +
+      (response._startTime[1] - request._startTime[1]) / 1e6
+    ).toFixed(digits);
     return elapsedTimeInMs;
-  }
-
-  private static lengthResponse(response: any): string {
-    const length = response.get('content-length') || '-';
-    return length;
   }
 
   public static Request(request: Request, logger: Logger): void {
@@ -92,9 +88,8 @@ export class NetTracer {
     const time = this.responseTime(3, request, response);
     const url = this.url(request);
     const status = this.status(response);
-    const length = this.lengthResponse(response);
     const ip = this.ip(request);
-    const log = `Responded to ${url} requested by ${ip} with status ${status} (${length}) bytes in ${time} miliseconds`;
-    logger.response(log);
+    const log = `Responded to ${url} requested by ${ip} with status ${status} in ${time} milliseconds`;
+    logger.request(log);
   }
 }

@@ -1,4 +1,10 @@
-import { CustomLogger, MongoArranger, MongoConnection, MongoConnectionMother, UuidMother } from 'core';
+import {
+  FileLogger,
+  MongoArranger,
+  MongoConnection,
+  MongoConnectionMother,
+  UuidMother,
+} from 'core';
 import { IdentifyBy } from '../../../src/User/domain/IdentifyBy';
 import { UserRepository } from '../../../src/User/domain/UserRepository';
 import { MongoUserRepository } from '../../../src/User/infrastructure/persistance/MongoDB/MongoUserRepository';
@@ -12,7 +18,10 @@ describe('MongoUserRepository', () => {
   beforeAll(async () => {
     connection = await MongoConnectionMother.create();
     arranger = new MongoArranger(connection);
-    userRepository = new MongoUserRepository(connection, new CustomLogger());
+    userRepository = new MongoUserRepository(
+      connection,
+      new FileLogger({ environment: 'test', serviceName: 'test' })
+    );
   });
 
   afterAll(async () => {
@@ -32,7 +41,9 @@ describe('MongoUserRepository', () => {
   });
 
   it('should get null on search by id', async () => {
-    const savedUser = await userRepository.getUserByCriteria(new IdentifyBy('id', UuidMother.random()));
+    const savedUser = await userRepository.getUserByCriteria(
+      new IdentifyBy('id', UuidMother.random())
+    );
     expect(savedUser).toEqual(null);
   });
 

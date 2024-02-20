@@ -7,6 +7,10 @@ export class MongoUserRepository extends MongoRepository<User> implements UserRe
     super(User, connection, logger);
   }
 
+  async index(): Promise<void> {
+    await this.collection.createIndex({ id: 1 }, { unique: true });
+  }
+
   async save(id: Uuid, aggregate: User): Promise<void> {
     await this.persist(id.value, aggregate);
   }

@@ -1,15 +1,11 @@
-export abstract class Logger {
-  protected readonly writeInFile: boolean;
-  constructor(writeInFile = false) {
-    this.writeInFile = writeInFile;
-  }
-  public abstract log(message: any): void;
-  public abstract error(message: any): void;
-  public abstract warn(message: any): void;
-  public abstract debug(message: any): void;
-  public abstract verbose(message: any): void;
-  public abstract request(message: any): void;
-  public abstract response(message: any): void;
+export interface Logger {
+  log(message: any): void;
+  error(message: any, stack?: any): void;
+  warn(message: any): void;
+  debug(message: any): void;
+  verbose(message: any): void;
+  request(message: any): void;
+  response(message: any): void;
 }
 
 export enum Color {
@@ -23,6 +19,15 @@ export enum Color {
   MESSAGE = '\x1b[37m',
 }
 
+export enum Levels {
+  info = '\x1b[32m',
+  error = '\x1b[31m',
+  warn = '\x1b[33m',
+  debug = '\x1b[34m',
+  verbose = '\x1b[36m',
+  http = '\x1b[35m',
+}
+
 export enum Decorator {
   RESET = '\x1b[0m',
   BRIGHT = '\x1b[1m',
@@ -34,7 +39,7 @@ export enum Decorator {
 }
 
 export enum FormatDates {
-  ISO = 'yyyy-MM-dd HH:mm:ss.SSS',
+  ISO = 'YYYY-MM-dd HH:mm:ss.SSS',
   LARGE = 'cccc, MMMM Do yyyy, h:mm:ss.SSS a',
   UTC = 'dd, cccc MMM yyyy HH:mm:ss.SSS',
   CLF = 'dd/MMM/yyyy:HH:mm:ss.SSS',

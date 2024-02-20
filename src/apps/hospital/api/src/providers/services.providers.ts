@@ -1,5 +1,11 @@
 import { Provider } from '@nestjs/common';
-import { CloudinaryUploader, CustomLogger, FirebaseSender, MailSender, RedisCacheStore } from 'core';
+import {
+  CloudinaryUploader,
+  ConsoleLogger,
+  FirebaseSender,
+  MailSender,
+  RedisCacheStore,
+} from 'core';
 import { JWTAuthService } from 'hospital';
 
 export const services: Provider[] = [
@@ -16,11 +22,13 @@ export const services: Provider[] = [
   {
     provide: 'EMAIL_SERVICE',
     inject: ['EMAIL_CONFIGURATION'],
-    useFactory: (conf: any) => new MailSender(conf.fromEmail, conf.username, conf.password, conf.templatePath),
+    useFactory: (conf: any) =>
+      new MailSender(conf.fromEmail, conf.username, conf.password, conf.templatePath),
   },
   {
     provide: 'LOGGER_SERVICE',
-    useFactory: () => new CustomLogger(false),
+    inject: ['SERVER_CONFIGURATION'],
+    useFactory: (serverConfig) => new ConsoleLogger({}),
   },
   {
     provide: 'CACHE_STORE',

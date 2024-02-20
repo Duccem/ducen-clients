@@ -1,8 +1,7 @@
-import { Error, InternalError } from 'core';
+import { DomainError, InternalError } from 'core';
 export function GraphQLErrorHandling(gqlError: any, e: any) {
-  console.log(gqlError);
-  let error: Error;
-  if (e.originalError.thrownValue instanceof Error) {
+  let error: DomainError;
+  if (e.originalError.thrownValue instanceof DomainError) {
     error = e.originalError.thrownValue;
   } else {
     error = new InternalError(gqlError.message);
