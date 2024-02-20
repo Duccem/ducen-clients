@@ -1,11 +1,9 @@
 //import { ExternalSignQuery } from '@ducen/hospital';
-import { Controller, Inject, UseFilters, UseInterceptors } from '@nestjs/common';
+import { Controller, Inject, UseInterceptors } from '@nestjs/common';
 import { QueryBus } from 'core';
-import { RESTCatchErrors } from '../utils/ErrorHandlers/RESTErrorHandler';
 import { ResponseModeler } from '../utils/Responses/ResponseInterceptor';
 
 @Controller('oauth')
-@UseFilters(RESTCatchErrors)
 @UseInterceptors(ResponseModeler)
 export class OAuthController {
   constructor(@Inject('QUERY_BUS') private queryBus: QueryBus) {}

@@ -1,9 +1,8 @@
-export class Error {
-  protected readonly message: string;
+export class DomainError extends Error {
   protected readonly code: number;
   protected readonly timestamp: string;
   constructor(message: string, code: number) {
-    this.message = message;
+    super(message);
     this.code = code;
     this.timestamp = new Date().toISOString();
   }

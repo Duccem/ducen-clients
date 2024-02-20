@@ -2,7 +2,6 @@ import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
 import { Logger, NetTracer } from 'core';
 import { NextFunction, Request, Response } from 'express';
 const onHeaders = require('on-headers');
-
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   constructor(@Inject('LOGGER_SERVICE') private logger: Logger) {}

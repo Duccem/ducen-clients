@@ -1,10 +1,10 @@
-import { CustomLogger } from 'core';
+import { ConsoleLogger } from 'core';
 import { config } from 'dotenv';
 import { resolve } from 'path';
 
 config();
 
-const logger = new CustomLogger();
+const logger = new ConsoleLogger({});
 
 export function getEnv() {
   let env = 'dev.env';

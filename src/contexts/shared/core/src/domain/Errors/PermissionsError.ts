@@ -1,6 +1,6 @@
-import { Error } from '../Error';
+import { DomainError } from '../DomainError';
 
-export class PermissionsError extends Error {
+export class PermissionsError extends DomainError {
   constructor(message: string) {
     super(message, 403);
   }

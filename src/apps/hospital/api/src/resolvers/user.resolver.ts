@@ -1,8 +1,13 @@
 import { Inject } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CloudinaryUploader, CommandBus, QueryBus } from 'core';
-import { GraphQLUpload, Upload, UploadOptions } from 'graphql-upload-ts';
-import { ChangePasswordCommand, LoginQuery, RecoveryPasswordCommand, UserRegisterCommand } from 'hospital';
+import { GraphQLUpload, Upload } from 'graphql-upload-ts';
+import {
+  ChangePasswordCommand,
+  LoginQuery,
+  RecoveryPasswordCommand,
+  UserRegisterCommand,
+} from 'hospital';
 
 @Resolver('User')
 export class UserResolver {

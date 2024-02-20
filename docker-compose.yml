@@ -24,16 +24,17 @@ services:
     depends_on:
       - mongodb
     command: npm run test -w hospital
-  test-hospital-api:
+  hospital-api:
     build:
       context: .
       dockerfile: ./src/apps/hospital/api/Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       - mongodb
       - redis
       - rabbitmq
+      - grafana
     command: npm run start:test -w api
   mongodb:
     image: mongo
@@ -52,3 +53,46 @@ services:
       - "15673:15672"
     logging:
       driver: none
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - loki
+      - tempo
+      - prometheus
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - '3100:3100'
+    volumes:
+      - loki-data:/tmp/loki
+  tempo:
+    image: grafana/tempo:latest
+    ports:
+      - "14268:14268" # jaeger ingest
+      - "3200:3200"  # tempo
+      - "4317:4317"  # otlp grpc
+      - "4318:4318"  # otlp http
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - tempo-data:/tmp/tempo
+      - ./etc/tempo.yaml:/etc/tempo.yaml
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./etc/prometheus.yaml:/etc/prometheus.yaml
+    command:
+      - --config.file=/etc/prometheus.yaml
+      - --web.enable-remote-write-receiver
+      - --enable-feature=exemplar-storage
+    ports:
+      - "9090:9090"
+networks:
+  monitoring:
+volumes:
+  grafana-data:
+  loki-data:
+  tempo-data:
