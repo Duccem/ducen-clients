@@ -1,41 +1,6 @@
 version: "3.8"
 
 services:
-  test-core:
-    container_name: test
-    build:
-      context: .
-      dockerfile: ./src/contexts/shared/core/Dockerfile
-    environment:
-      - MONGO_DB_URL=mongodb://mongodb:27017/test
-      - RABBIT_MQ_URL=amqp://rabbitmq:5672
-      - REDIS_URL=redis://redis:6379
-    depends_on:
-      - mongodb
-      - redis
-      - rabbitmq
-    command: npm run test -w core
-  test-hospital:
-    build:
-      context: .
-      dockerfile: ./src/contexts/hospital/Dockerfile
-    environment:
-      - MONGO_DB_URL=mongodb://mongodb:27017/test
-    depends_on:
-      - mongodb
-    command: npm run test -w hospital
-  hospital-api:
-    build:
-      context: .
-      dockerfile: ./src/apps/hospital/api/Dockerfile
-    ports:
-      - "3001:3000"
-    depends_on:
-      - mongodb
-      - redis
-      - rabbitmq
-      - grafana
-    command: npm run start:test -w api
   mongodb:
     image: mongo
     ports:

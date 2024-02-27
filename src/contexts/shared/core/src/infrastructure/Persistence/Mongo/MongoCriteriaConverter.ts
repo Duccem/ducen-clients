@@ -2,7 +2,11 @@ import { Criteria } from '../../../domain/Criteria/Criteria';
 import { Filter } from '../../../domain/Criteria/Filter/Filter';
 import { Operator } from '../../../domain/Criteria/Filter/FilterOperator';
 import { AndFilters, Filters, NotFilters, OrFilters } from '../../../domain/Criteria/Filter/Filters';
+import { Join } from '../../../domain/Criteria/Join/Join';
+import { Joins } from '../../../domain/Criteria/Join/Joins';
+import { Relationships } from '../../../domain/Criteria/Join/Relationship';
 import { Order } from '../../../domain/Criteria/Order/Order';
+import { Projection } from '../../../domain/Criteria/Projection/Projection';
 interface TransformerFunction<T, K> {
   (value: T): K;
 }
@@ -28,32 +32,59 @@ export class MongoCriteriaConverter {
 
   constructor() {
     this.filterTransformers = new Map<Operator, TransformerFunction<Filter, MongoFilter>>([
-      [Operator.EQUAL, this.equalFilter],
-      [Operator.NOT_EQUAL, this.notEqualFilter],
-      [Operator.GT, this.greaterThanFilter],
-      [Operator.LT, this.lowerThanFilter],
-      [Operator.CONTAINS, this.containsFilter],
-      [Operator.NOT_CONTAINS, this.notContainsFilter],
+      [Operator.EQUAL, this.equal],
+      [Operator.NOT_EQUAL, this.notEqual],
+      [Operator.GT, this.greaterThan],
+      [Operator.LT, this.lowerThan],
+      [Operator.CONTAINS, this.contains],
+      [Operator.NOT_CONTAINS, this.notContains],
     ]);
   }
 
-  public Criteria(criteria?: Criteria): MongoQuery {
-    if (!criteria)
-      return {
-        filter: {},
-        sort: { _id: -1 },
-        skip: 0,
-        limit: 50,
-      };
+  public convert(criteria?: Criteria, joins?: Joins, projection?: Projection) {
+    const { filter, limit, skip, sort } = this.criteria(criteria);
+    const join = this.join(joins);
+    const project = this.project(projection);
+    return [
+      { $match: filter },
+      ...join,
+      { $sort: sort },
+      { $skip: skip },
+      { $limit: limit },
+      project ? { $project: project } : {},
+    ];
+  }
+
+  public criteria(criteria: Criteria): MongoQuery {
     return {
-      filter: criteria.hasFilter() ? this.Filter(criteria.filters) : {},
-      sort: criteria.hasOrder() ? this.Sort(criteria.order) : { _id: -1 },
+      filter: criteria.hasFilter() ? this.filter(criteria.filters) : {},
+      sort: criteria.hasOrder() ? this.sort(criteria.order) : { _id: -1 },
       skip: criteria.hasPaginator() ? criteria.paginator.offset.getValue() : 0,
-      limit: criteria.hasPaginator() ? criteria.paginator.limit.getValue() : 1,
+      limit: criteria.hasPaginator() ? criteria.paginator.limit.getValue() : 50,
     };
   }
 
-  public Filter(filters: Filters): MongoFilter {
+  public join(joins?: Joins) {
+    if (!joins) return [];
+    const lookups = joins.joins.map((join) => this.lookup(join));
+    const unwinds = joins.joins.map((join) => this.unwind(join));
+    return [...lookups, ...unwinds];
+  }
+
+  public project(projection: Projection) {
+    if (projection.isEmpty()) return null;
+    return projection.fields.reduce((acc, field) => ({ ...acc, [field.value]: 1 }), {});
+  }
+
+  public search(text: string) {
+    return [
+      { $match: { $text: { $search: text } } },
+      { $addFields: { score: { $meta: 'textScore' } } },
+      { $sort: { score: { $meta: 'textScore' } } },
+    ];
+  }
+
+  private filter(filters: Filters): MongoFilter {
     const filter = filters.filters.map((filter) => {
       const transformer = this.filterTransformers.get(filter.operator.value);
 
@@ -63,47 +94,63 @@ export class MongoCriteriaConverter {
 
       return transformer(filter);
     });
-    if (filters instanceof AndFilters) return { $and: [...filter] };
-    if (filters instanceof OrFilters) return { $or: [...filter] };
-    if (filters instanceof NotFilters) return { $not: Object.assign({}, ...filter) };
-    return Object.assign({}, ...filter);
+    const embeddings = filters.embeds.reduce((acc, filters) => ({ ...acc, ...this.filter(filters) }), {});
+    if (filters instanceof AndFilters) return { $and: [...filter], ...embeddings };
+    if (filters instanceof OrFilters) return { $or: [...filter], ...embeddings };
+    if (filters instanceof NotFilters) return { $not: Object.assign({}, ...{ ...filter, ...embeddings }) };
+    return Object.assign({}, ...{ ...filter, ...embeddings });
   }
 
-  public Sort(order: Order): MongoSort {
+  private sort(order: Order): MongoSort {
     return {
       [order.orderBy.value === 'id' ? '_id' : order.orderBy.value]: order.orderType.isAsc() ? 1 : -1,
     };
   }
 
-  public Search(text: string) {
-    return [
-      { $match: { $text: { $search: text } } },
-      { $addFields: { score: { $meta: 'textScore' } } },
-      { $sort: { score: { $meta: 'textScore' } } },
-    ];
+  private lookup(join: Join) {
+    const relationship = join.relationship.value;
+    return {
+      $lookup: {
+        from: join.right.value,
+        localField: relationship === Relationships.MANY_TO_ONE ? join.left.value : '_id',
+        foreignField: relationship === Relationships.MANY_TO_ONE ? '_id' : join.right.value,
+        as: join.right.value,
+      },
+    };
   }
 
-  private equalFilter(filter: Filter): MongoFilter {
+  private unwind(join: Join) {
+    if (join.relationship.value !== Relationships.MANY_TO_ONE) return;
+    return {
+      $unwind: {
+        path: `$${join.right.value}`,
+        includeArrayIndex: 'string',
+        preserveNullAndEmptyArrays: true,
+      },
+    };
+  }
+
+  private equal(filter: Filter): MongoFilter {
     return { [filter.field.value]: { $eq: filter.value.value } };
   }
 
-  private notEqualFilter(filter: Filter): MongoFilter {
+  private notEqual(filter: Filter): MongoFilter {
     return { [filter.field.value]: { $ne: filter.value.value } };
   }
 
-  private greaterThanFilter(filter: Filter): MongoFilter {
+  private greaterThan(filter: Filter): MongoFilter {
     return { [filter.field.value]: { $gt: filter.value.value } };
   }
 
-  private lowerThanFilter(filter: Filter): MongoFilter {
+  private lowerThan(filter: Filter): MongoFilter {
     return { [filter.field.value]: { $lt: filter.value.value } };
   }
 
-  private containsFilter(filter: Filter): MongoFilter {
+  private contains(filter: Filter): MongoFilter {
     return { [filter.field.value]: { $regex: filter.value.value } };
   }
 
-  private notContainsFilter(filter: Filter): MongoFilter {
+  private notContains(filter: Filter): MongoFilter {
     return { [filter.field.value]: { $not: { $regex: filter.value.value } } };
   }
 }

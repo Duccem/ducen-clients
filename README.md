@@ -1,12 +1,13 @@
-[![Frontend CI](https://github.com/Duccem/ducen/actions/workflows/frontend.yml/badge.svg)](https://github.com/Duccem/ducen/actions/workflows/frontend.yml)
-[![Frontend CI](https://github.com/Duccem/ducen/actions/workflows/backend.yml/badge.svg)](https://github.com/Duccem/ducen/actions/workflows/backend.yml)
-# Duccem Platform
+[![Core CI](https://github.com/Duccem/ducen-health/actions/workflows/core.yml/badge.svg)](https://github.com/Duccem/ducen-health/actions/workflows/core.yml)
+[![Hospital - API CI](https://github.com/Duccem/ducen-health/actions/workflows/backend.yml/badge.svg)](https://github.com/Duccem/ducen/actions/workflows/backend.yml)
+[![Hospital - Web CI](https://github.com/Duccem/ducen-health/actions/workflows/frontend.yml/badge.svg)](https://github.com/Duccem/ducen/actions/workflows/backend.yml)
+# Helsa
 
 Version: 1.1.0
 
 Author: José Véliz [(Duccem)](https://github.com/Duccem)
 
-- [Duccem Platform](#duccem-platform)
+- [Helsa](#helsa)
   - [About](#about)
   - [Installation](#installation)
   - [Commands](#commands)
@@ -34,11 +35,11 @@ $ npm install --save
 ## Commands
 
 Some useful commands are the main run commands to stand up the services on local machine and docker containers,
-the commands are compounds of elements that determinate what are you making  ```$ npm run ${action}:${context}:${app}:${env}```
+the commands are compounds of elements that determinate what are you making  ```$ npm run ${script} -w ${package | app}```
 
 ### Example
 
-```$ npm run start:team:back:docker```
+```$ npm run start:local -w api```
 
 ## Actions
 
@@ -64,22 +65,21 @@ The structure folder follow the DDD and Hexagonal architecture philosophy (Domai
 
 - [apps/]() Apps of the different teams
   - [hospital/]() core team
-    - [frontend/]() NextJS app
-    - [backend/]() NestJS app
+    - [web/]() NextJS app
+    - [api/]() NestJS app
     - [mobile/]() Expo app
 - [contexts/]() 
-  - [hospital/]() The team management base code
+  - [hospital/]() The hospital base code
   - [shared/]() Shared code between teams
     - [core/]() Core entities and modules code
     - [ui/]() UI library of all products of the management
-  - [packages/]
-    - [eslint-config-duccem/]
-    - [tsconfig]
+  - [packages/]()
+    - [eslint-config-duccem/]()
+    - [tsconfig]()
 
 ## Other links
 
-- [Changelog](https://github.com/Duccem/ducen-backend/blob/main/CHANGELOG.md)
-- [Main API](/main-api)
+- [Changelog](https://github.com/Duccem/ducen-health/blob/main/CHANGELOG.md)
 
 ## Contributing
 

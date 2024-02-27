@@ -1,4 +1,4 @@
-name: Backend CI
+name: Hospital API CI
 
 on:
   push:
