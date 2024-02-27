@@ -20,7 +20,7 @@ export class MongoDoctorRepository extends MongoRepository<Doctor> implements Do
     await Promise.allSettled(doctor.ratings.map((rating) => this.ratingRepository.save(rating)));
   }
   async findDoctorByCriteria(criteria: Criteria): Promise<Doctor> {
-    const { filter } = this.converter.Criteria(criteria);
+    const { filter } = this.converter.criteria(criteria);
     const response = await this.collection.findOne<Primitives<Doctor>>(filter);
     if (response) {
       const doctor = Doctor.fromPrimitives(response);

@@ -15,7 +15,7 @@ export class MongoUserRepository extends MongoRepository<User> implements UserRe
     await this.persist(id.value, aggregate);
   }
   async getUserByCriteria(criteria: Criteria): Promise<User> {
-    const { filter } = this.converter.Criteria(criteria);
+    const { filter } = this.converter.criteria(criteria);
     const user = await this.collection.findOne<Primitives<User>>(filter);
     return user ? User.fromPrimitives(user) : null;
   }

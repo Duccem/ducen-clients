@@ -1,32 +1,26 @@
-# name: Frontend CI
+name: Hospital Web CI
 # env:
 #   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
 #   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-# on:
-#   push:
-#     branches: [main]
-#     paths:
-#       - "packages/apps/team-management/frontend/**"
-#       - "packages/contexts/shared/ui/src/**"
-#       - "packages/contexts/shared/core/src/domain/Base/**"
-#       - "packages/contexts/team-management/src/**/domain/**"
-#   pull_request:
-#     branches: [main]
-#     types: [opened,synchronize,reopened]
-#     paths:
-#       - "packages/apps/team-management/frontend/**"
-#       - "packages/contexts/shared/ui/src/**"
-#       - "packages/contexts/shared/core/src/domain/Base/**"
-#       - "packages/contexts/team-management/src/**/domain/**"
-#   workflow_dispatch:
-# jobs:
-#   avoid_reduncy:
-#     runs-on: ubuntu-22.04
-#     steps:
-#       - name: Cancel Previous Redundant Builds
-#         uses: styfle/cancel-workflow-action@0.9.1
-#         with:
-#           access_token: ${{ github.token }}
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/apps/hospital/web/**"
+  pull_request:
+    branches: [main]
+    types: [opened,synchronize,reopened]
+    paths:
+      - "src/apps/hospital/web/**"
+  workflow_dispatch:
+jobs:
+  avoid_reduncy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Cancel Previous Redundant Builds
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
 #   lint:
 #     runs-on: ubuntu-22.04
 #     steps:
