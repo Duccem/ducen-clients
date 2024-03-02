@@ -1,11 +1,7 @@
 import { BaseObject, DateValueObject, Primitives, StringValueObject } from 'core';
 
 export class Association extends BaseObject {
-  constructor(
-    public entity: StringValueObject,
-    public startDate: DateValueObject,
-    public endDate: DateValueObject
-  ) {
+  constructor(public entity: StringValueObject, public startDate: DateValueObject, public endDate: DateValueObject) {
     super();
   }
 
@@ -17,7 +13,7 @@ export class Association extends BaseObject {
     };
   }
 
-  fromPrimitives(data: Primitives<Association>): Association {
+  static fromPrimitives(data: Primitives<Association>): Association {
     return new Association(
       new StringValueObject(data.entity),
       new DateValueObject(data.startDate),

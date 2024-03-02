@@ -3,6 +3,13 @@
 - Actual version: 0.1.0
 - Author: José Véliz [(Duccem)](https://github.com/Duccem)
 
+## [0.1.1] Refactor all things
+
+- Add joins and projections to criteria
+- Add workflows of github actions
+- Add the components of mobile and web
+- Complete auth flows from hospital platform
+
 ## [0.1.0] Change to npm workspaces and Authentication flows 2023-09-11
 
 - Migrate from Nx to NPM Workspaces

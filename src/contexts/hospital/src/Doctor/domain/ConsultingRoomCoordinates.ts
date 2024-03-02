@@ -12,10 +12,7 @@ export class ConsultingRoomCoordinates extends BaseObject {
     };
   }
 
-  fromPrimitives(data: Primitives<ConsultingRoomCoordinates>): ConsultingRoomCoordinates {
-    return new ConsultingRoomCoordinates(
-      new Latitude(data.latitude),
-      new Longitude(data.longitude)
-    );
+  static fromPrimitives(data: Primitives<ConsultingRoomCoordinates>): ConsultingRoomCoordinates {
+    return new ConsultingRoomCoordinates(new Latitude(data.latitude), new Longitude(data.longitude));
   }
 }

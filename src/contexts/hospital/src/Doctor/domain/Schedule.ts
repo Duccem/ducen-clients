@@ -18,7 +18,7 @@ export class Schedule extends BaseObject {
     };
   }
 
-  fromPrimitives(data: Primitives<Schedule>): Schedule {
+  static fromPrimitives(data: Primitives<Schedule>): Schedule {
     return new Schedule(
       data.days.map((day: Primitives<Day>) => Day.fromPrimitives(day)),
       new NumberValueObject(data.appointmentDuration),

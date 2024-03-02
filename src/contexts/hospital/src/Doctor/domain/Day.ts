@@ -13,7 +13,7 @@ export class Day extends BaseObject {
     };
   }
 
-  fromPrimitives(data: Primitives<Day>): Day {
+  static fromPrimitives(data: Primitives<Day>): Day {
     return new Day(
       new StringValueObject(data.weekDay),
       data.sections.map((section: Primitives<Section>) => Section.fromPrimitives(section))

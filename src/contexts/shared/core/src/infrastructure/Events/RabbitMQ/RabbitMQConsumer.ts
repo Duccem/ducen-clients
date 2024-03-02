@@ -17,7 +17,7 @@ export class RabbitMQConsumer {
     deserializer: DomainEventDeserializer,
     queue: string,
     exchange: string,
-    retries: number,
+    retries: number
   ) {
     this.subscriber = subscriber;
     this.connection = connection;
@@ -65,6 +65,7 @@ export class RabbitMQConsumer {
   }
 
   private hasBeenRedelivered(message: ConsumeMessage) {
-    return message.properties.headers['redelivery_count'] !== undefined;
+    console.log('MESSAGE', message);
+    return message.properties.headers && message.properties.headers['redelivery_count'] !== undefined;
   }
 }

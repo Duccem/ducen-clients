@@ -10,7 +10,14 @@ export class RabbitMQConnection {
     return await this.channel.assertExchange(name, 'topic', { durable: true });
   }
 
-  async queue(exchange: string, name: string, routingKeys: string[], dlExchange?: string, dlQueue?: string, messageTtl?: number) {
+  async queue(
+    exchange: string,
+    name: string,
+    routingKeys: string[],
+    dlExchange?: string,
+    dlQueue?: string,
+    messageTtl?: number
+  ) {
     const args = RabbitMQFormatter.formatQueueArguments({
       deadLetterExchange: dlExchange,
       deadLetterQueue: dlQueue,
@@ -82,7 +89,9 @@ export class RabbitMQConnection {
       const count = parseInt(message.properties.headers['redelivery_count']);
       message.properties.headers['redelivery_count'] = count + 1;
     } else {
-      message.properties.headers['redelivery_count'] = 1;
+      message.properties.headers = {
+        redelivery_count: 1,
+      };
     }
 
     return message.properties.headers;

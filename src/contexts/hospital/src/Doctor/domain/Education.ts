@@ -21,7 +21,7 @@ export class Education extends BaseObject {
     };
   }
 
-  fromPrimitives(data: Primitives<Education>): Education {
+  static fromPrimitives(data: Primitives<Education>): Education {
     return new Education(
       new StringValueObject(data.title),
       new StringValueObject(data.institution),

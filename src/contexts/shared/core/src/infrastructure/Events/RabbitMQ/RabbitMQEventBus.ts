@@ -1,4 +1,3 @@
-import { ConsumeMessage } from 'amqplib';
 import { DomainEvent } from '../../../domain/DomainEvent';
 import { EventBus } from '../../../domain/DomainEventBus';
 import { DomainEventSubscriber } from '../../../domain/DomainEventSubscriber';
@@ -44,7 +43,7 @@ export class RabbitMQEventBus implements EventBus {
     const retryQueue = RabbitMQFormatter.formatQueueRetry(subscriber);
 
     await this.connection.queue(exchange, queue, routingKeys);
-    await this.connection.queue(retryExchange, retryQueue, [queue], exchange, queue, 3000);
+    await this.connection.queue(retryExchange, retryQueue, [queue], exchange, queue, 500);
     await this.connection.queue(deadLetterExchange, deadLetterQueue, [queue]);
   }
 
@@ -53,14 +52,15 @@ export class RabbitMQEventBus implements EventBus {
     this.deserializer = DomainEventDeserializer.configure(subscribers.subscribers);
     for (const subscriber of subscribers.subscribers) {
       const queueName = RabbitMQFormatter.formatQueue(subscriber);
-      const consumer = new RabbitMQConsumer(subscriber, this.connection, this.deserializer, queueName, this.exchange, 10);
-      await this.connection.consume(queueName, async (message: ConsumeMessage) => {
-        try {
-          await consumer.onMessage(message);
-        } catch (error) {
-          this.logger.error(`Error consuming event ${message.fields.routingKey}, the error was ${error}`);
-        }
-      });
+      const consumer = new RabbitMQConsumer(
+        subscriber,
+        this.connection,
+        this.deserializer,
+        queueName,
+        this.exchange,
+        3
+      );
+      await this.connection.consume(queueName, consumer.onMessage.bind(consumer));
     }
   }
 
@@ -74,7 +74,9 @@ export class RabbitMQEventBus implements EventBus {
         await this.connection.publish(this.exchange, routingKey, content, options);
         await this.failOverPublisher.publish(event, true);
       } catch (error) {
-        this.logger.error(`Error publishing event ${event.eventName} with aggregateId ${event.aggregateId}, the error was ${error}`);
+        this.logger.error(
+          `Error publishing event ${event.eventName} with aggregateId ${event.aggregateId}, the error was ${error}`
+        );
         await this.failOverPublisher.publish(event, false);
       }
     }

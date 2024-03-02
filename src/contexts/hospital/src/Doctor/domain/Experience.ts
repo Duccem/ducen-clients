@@ -19,7 +19,7 @@ export class Experience extends BaseObject {
     };
   }
 
-  fromPrimitives(data: Primitives<Experience>): Experience {
+  static fromPrimitives(data: Primitives<Experience>): Experience {
     return new Experience(
       new StringValueObject(data.title),
       new StringValueObject(data.institution),

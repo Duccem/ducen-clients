@@ -1,5 +1,4 @@
 import { DomainEvent } from '../../../src/domain/DomainEvent';
-import { CustomLogger } from '../../../src/infrastructure/CustomLogger';
 import { DomainEventDeserializer } from '../../../src/infrastructure/Events/DomainEventDeserializer';
 import { DomainEventFailOverPublisher } from '../../../src/infrastructure/Events/DomainEventFailOverPublisher';
 import { DomainEventRegisterObservers } from '../../../src/infrastructure/Events/DomainEventRegisterObservers';
@@ -7,6 +6,7 @@ import { RabbitMQConnection } from '../../../src/infrastructure/Events/RabbitMQ/
 import { RabbitMQConsumer } from '../../../src/infrastructure/Events/RabbitMQ/RabbitMQConsumer';
 import { RabbitMQEventBus } from '../../../src/infrastructure/Events/RabbitMQ/RabbitMQEventBus';
 import { RabbitMQFormatter } from '../../../src/infrastructure/Events/RabbitMQ/RabbitMQFormatter';
+import { ConsoleLogger } from '../../../src/infrastructure/Logging/ConsoleLogger';
 import { MongoArranger } from '../mongo/MongoArranger';
 import { DomainEventSubscriberDummy } from './__mocks__/DomainEventSubscriberDummy';
 import { DomainEventDummyMother } from './__mother__/DomainEventDummyMother';
@@ -36,7 +36,7 @@ describe('RabbitMQEventBus test', () => {
     it('should use the failover publisher if publish to RabbitMQ fails', async () => {
       const connection = RabbitMQConnectionMother.failOnPublish();
       const failoverPublisher = DomainEventFailoverPublisherMother.failOverDouble();
-      const eventBus = new RabbitMQEventBus(failoverPublisher, connection, 'test', new CustomLogger());
+      const eventBus = new RabbitMQEventBus(failoverPublisher, connection, 'test', new ConsoleLogger({}));
       const event = DomainEventDummyMother.random();
 
       await eventBus.publish([event]);
@@ -67,7 +67,7 @@ describe('RabbitMQEventBus test', () => {
 
     it('should consume the events published to RabbitMQ', async () => {
       dummySubscriber = new DomainEventSubscriberDummy();
-      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new CustomLogger());
+      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new ConsoleLogger({}));
       await eventBus.addSubscribers(new DomainEventRegisterObservers([dummySubscriber]));
       const event = DomainEventDummyMother.random();
 
@@ -77,8 +77,9 @@ describe('RabbitMQEventBus test', () => {
     });
 
     it('should retry failed domain events', async () => {
+      console.log('RETRY FAILED DOMAIN EVENTS');
       dummySubscriber = DomainEventSubscriberDummy.failsFirstTime();
-      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new CustomLogger());
+      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new ConsoleLogger({}));
       await eventBus.addSubscribers(new DomainEventRegisterObservers([dummySubscriber]));
       const event = DomainEventDummyMother.random();
 
@@ -87,8 +88,9 @@ describe('RabbitMQEventBus test', () => {
     });
 
     it('it should send events to dead letter after retry failed', async () => {
+      console.log('SEND EVENTS TO DEAD LETTER AFTER RETRY FAILED');
       dummySubscriber = DomainEventSubscriberDummy.alwaysFails();
-      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new CustomLogger());
+      const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new ConsoleLogger({}));
       await eventBus.addSubscribers(new DomainEventRegisterObservers([dummySubscriber]));
       const event = DomainEventDummyMother.random();
 
@@ -107,7 +109,14 @@ describe('RabbitMQEventBus test', () => {
       const deadLetterQueue = RabbitMQFormatter.formatQueueDeadLetter(dummySubscriber);
       const deadLetterSubscriber = new DomainEventSubscriberDummy();
       const deserializer = DomainEventDeserializer.configure([deadLetterSubscriber]);
-      const consumer = new RabbitMQConsumer(deadLetterSubscriber, rabbitConnection, deserializer, deadLetterQueue, exchange, 3);
+      const consumer = new RabbitMQConsumer(
+        deadLetterSubscriber,
+        rabbitConnection,
+        deserializer,
+        deadLetterQueue,
+        exchange,
+        3
+      );
       await rabbitConnection.consume(deadLetterQueue, consumer.onMessage.bind(consumer));
 
       await deadLetterSubscriber.assertConsumedEvents(events);

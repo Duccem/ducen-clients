@@ -22,7 +22,7 @@ export class ConsultingRoomAddress extends BaseObject {
     };
   }
 
-  fromPrimitives(data: Primitives<ConsultingRoomAddress>): ConsultingRoomAddress {
+  static fromPrimitives(data: Primitives<ConsultingRoomAddress>): ConsultingRoomAddress {
     return new ConsultingRoomAddress(
       new StringValueObject(data.country),
       new StringValueObject(data.city),

@@ -12,7 +12,7 @@ export class Section extends BaseObject {
     };
   }
 
-  fromPrimitives(data: Primitives<Section>): Section {
+  static fromPrimitives(data: Primitives<Section>): Section {
     return new Section(new DateValueObject(data.initHour), new DateValueObject(data.endHour));
   }
 }
