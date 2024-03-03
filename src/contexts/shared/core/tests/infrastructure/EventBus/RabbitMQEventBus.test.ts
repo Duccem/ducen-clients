@@ -77,7 +77,6 @@ describe('RabbitMQEventBus test', () => {
     });
 
     it('should retry failed domain events', async () => {
-      console.log('RETRY FAILED DOMAIN EVENTS');
       dummySubscriber = DomainEventSubscriberDummy.failsFirstTime();
       const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new ConsoleLogger({}));
       await eventBus.addSubscribers(new DomainEventRegisterObservers([dummySubscriber]));
@@ -88,7 +87,6 @@ describe('RabbitMQEventBus test', () => {
     });
 
     it('it should send events to dead letter after retry failed', async () => {
-      console.log('SEND EVENTS TO DEAD LETTER AFTER RETRY FAILED');
       dummySubscriber = DomainEventSubscriberDummy.alwaysFails();
       const eventBus = new RabbitMQEventBus(failoverPublisher, rabbitConnection, 'test', new ConsoleLogger({}));
       await eventBus.addSubscribers(new DomainEventRegisterObservers([dummySubscriber]));

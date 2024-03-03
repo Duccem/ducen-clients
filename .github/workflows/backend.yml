@@ -25,40 +25,42 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      # - uses: actions/setup-node@v2
-      #   with:
-      #     cache: 'npm'
-      #     node-version: '16.14.2'
-      # - name: Install dependencies 📦
-      #   run: npm ci --loglevel=error
-      # - name: Lint 🔍
-      #   run: npm run lint -w api
-      # - name: Build 🏗️
-      #   run: |
-      #       npm run build -w core
-      #       npm run build:back -w hospital
-      #       npm run build -w api
-      # - name: Create env file for E2E tests 🧪
-      #   run: |
-      #       cd ./src/apps/hospital/api/src/environments
-      #       touch test.env
-      #       echo "${{ secrets.DEV_ENV }}" | base64 --decode > test.env
-      # - name: Start Docker Compose 🐳
-      #   run: docker-compose run --rm -d --service-ports hospital-api
-      # - name: E2E tests 🧪
-      #   run: npm run test -w api
-  #     - name: SonarCloud Scan 📊
-  #       uses: SonarSource/sonarcloud-github-action@master
-  #       env:
-  #         GITHUB_TOKEN: ${{ github.token }}  # Needed to get PR information, if any
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  #       with:
-  #         projectBaseDir: src/apps/hospital/api
-  # deploy:
-  #   needs: [build]
-  #   runs-on: ubuntu-latest
-  #   if: ${{ github.ref == 'refs/heads/main'}}
-  #   steps:
-  #     - name: Deploiy
-  #       run: echo "Deploying..."
+      - uses: actions/setup-node@v2
+        with:
+          cache: 'npm'
+          node-version: '16.14.2'
+      - name: Install dependencies 📦
+        run: npm ci --loglevel=error
+      - name: Lint 🔍
+        run: npm run lint -w api
+      - name: Build 🏗️
+        run: |
+            npm run build -w core
+            npm run build:back -w hospital
+            npm run build -w api
+      - name: Create env file for E2E tests 🧪
+        run: |
+            cd ./src/apps/hospital/api/src/environments
+            touch test.env
+            echo "${{ secrets.DEV_ENV }}" | base64 --decode > test.env
+      - name: Start Docker Compose 🐳
+        run: docker-compose run --rm -d --service-ports hospital-api
+      - name: Wait for API to start
+        run: sleep 5
+      - name: E2E tests 🧪
+        run: npm run test -w api
+      - name: SonarCloud Scan 📊
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ github.token }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          projectBaseDir: src/apps/hospital/api
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main'}}
+    steps:
+      - name: Deploiy
+        run: echo "Deploying..."
 
