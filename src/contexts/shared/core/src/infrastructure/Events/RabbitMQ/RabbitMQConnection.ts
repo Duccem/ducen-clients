@@ -88,6 +88,7 @@ export class RabbitMQConnection {
     if (this.hasBeenRedelivered(message)) {
       const count = parseInt(message.properties.headers['redelivery_count']);
       message.properties.headers['redelivery_count'] = count + 1;
+      console.log(message);
     } else {
       message.properties.headers = {
         redelivery_count: 1,
@@ -98,7 +99,7 @@ export class RabbitMQConnection {
   }
 
   private hasBeenRedelivered(message: ConsumeMessage) {
-    return message.properties.headers['redelivery_count'] !== undefined;
+    return message.properties.headers && message.properties.headers['redelivery_count'] !== undefined;
   }
 
   async close() {

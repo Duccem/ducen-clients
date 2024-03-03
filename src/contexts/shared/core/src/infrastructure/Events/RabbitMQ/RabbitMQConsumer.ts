@@ -65,7 +65,6 @@ export class RabbitMQConsumer {
   }
 
   private hasBeenRedelivered(message: ConsumeMessage) {
-    console.log('MESSAGE', message);
     return message.properties.headers && message.properties.headers['redelivery_count'] !== undefined;
   }
 }

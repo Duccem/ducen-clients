@@ -35,13 +35,10 @@ export class DomainEventSubscriberDummy implements DomainEventSubscriber {
     if (this.alwaysFails) {
       throw new Error();
     }
-    console.log('PASS THE ALWAYS FAILS');
     if (!this.alreadyFailed && this.failsFirstTime) {
       this.alreadyFailed = true;
-      console.log('FAIL THE FIRST TIME');
       throw new Error();
     }
-    console.log('PUSH THE EVENT');
     this.events.push(domainEvent);
   }
 
