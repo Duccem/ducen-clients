@@ -1,18 +1,14 @@
-[![Core CI](https://github.com/Duccem/ducen-health/actions/workflows/core.yml/badge.svg)](https://github.com/Duccem/ducen-health/actions/workflows/core.yml)
-[![Hospital - API CI](https://github.com/Duccem/ducen-health/actions/workflows/backend.yml/badge.svg)](https://github.com/Duccem/ducen/actions/workflows/backend.yml)
-[![Hospital - Web CI](https://github.com/Duccem/ducen-health/actions/workflows/frontend.yml/badge.svg)](https://github.com/Duccem/ducen/actions/workflows/backend.yml)
-# Helsa
+# Ducen clients
 
 Version: 1.1.0
 
 Author: José Véliz [(Duccem)](https://github.com/Duccem)
 
-- [Helsa](#helsa)
+- [Ducen clients](#ducen-clients)
   - [About](#about)
   - [Installation](#installation)
   - [Commands](#commands)
     - [Example](#example)
-  - [Actions](#actions)
   - [Environments](#environments)
   - [Architecture](#architecture)
   - [Other links](#other-links)
@@ -21,8 +17,7 @@ Author: José Véliz [(Duccem)](https://github.com/Duccem)
 
 ## About
 
-This mono repository contains all of source code related to the project "Ducen", a project oriented to the team management and the career path,
-each module of the repository represents a part of the principal team and the objective of that team.
+Monorepo to all of Web/Mobile apps of Ducen projects based on ReactJS and Typescript, built using Domain-Driven Design Architecture. The main objective of this project is to provide a modular and scalable structure for the development of mobile and web applications. By adopting a monolithic approach, where multiple applications share common code, we aim to facilitate maintenance, reusability, and software evolution over time.
 
 ## Installation
 
@@ -39,47 +34,33 @@ the commands are compounds of elements that determinate what are you making  ```
 
 ### Example
 
-```$ npm run start:local -w api```
-
-## Actions
-
-- start
-- build
-- test
-- cov
-- e2e
+```$ npm run dev -w consulting-room```
 
 ## Environments
 
-- Local
-- Docker
-- Dev
-- Prod
+- Local - Local Machine
+- Test - Docker Containers
+- Dev - Cloud Dev Services
+- Prod - Cloud Main Services
 
 ## Architecture
 
-Ducen backend is a monorepo that contain various libs with code useful to run apps as rest api and sockets servers,
-this architectures allow to some apps share code important to the domain of Ducen, the architecture have the follow structure.
+The repository is structured in such a way that each application (both mobile and web) resides in its own directory within the apps folder. Additionally, the main code for each business area within the repository is separated by contexts within the contexts folder. Furthermore, the shared context is included for code shared among different contexts. This modular structure allows for independent development of each application under different parameters and by different teams, while efficiently sharing resources and common logic.
 
 The structure folder follow the DDD and Hexagonal architecture philosophy (Domain, Services/Application, Infrastructure/Adaptors).
 
 - [apps/]() Apps of the different teams
   - [hospital/]() core team
-    - [web/]() NextJS app
-    - [api/]() NestJS app
-    - [mobile/]() Expo app
+    - [consulting-room/]() Web app with react
+    - [nurse-app/]() Mobile expo app
 - [contexts/]() 
   - [hospital/]() The hospital base code
   - [shared/]() Shared code between teams
-    - [core/]() Core entities and modules code
-    - [ui/]() UI library of all products of the management
-  - [packages/]()
-    - [eslint-config-duccem/]()
-    - [tsconfig]()
+  - [ui/]() UI library of all products of the management
 
 ## Other links
 
-- [Changelog](https://github.com/Duccem/ducen-health/blob/main/CHANGELOG.md)
+- [Changelog](https://github.com/Duccem/ducen-clients/blob/main/CHANGELOG.md)
 
 ## Contributing
 
