@@ -1,3 +1,4 @@
+[![Consulting Room CI](https://github.com/Duccem/ducen-clients/actions/workflows/consulting-room.yml/badge.svg)](https://github.com/Duccem/ducen-clients/actions/workflows/consulting-room.yml)
 # Ducen clients
 
 Version: 1.1.0
