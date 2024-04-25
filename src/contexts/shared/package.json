@@ -1,0 +1,30 @@
+{
+  "name": "@ducen-clients/shared",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/*/**.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "test": "jest --coverage",
+    "lint": "eslint \"{src,test}/**/*.ts\" --fix"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.10.1",
+    "@faker-js/faker": "^8.4.1",
+    "capitalize": "^2.0.4",
+    "date-fns": "^2.30.0",
+    "date-fns-tz": "^2.0.1",
+    "expo-sqlite": "^13.4.0",
+    "pluralize": "^8.0.0",
+    "uuid": "^9.0.1"
+  }
+}
