@@ -1,18 +1,17 @@
+/** @type {import('jest').Config} */
 module.exports = {
   preset: 'jest-expo',
-  transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
-  ],
-  collectCoverage: true,
+  setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect'],
+  transform: {
+    '^.+\\.(js|ts|tsx)$': 'babel-jest',
+  },
+  coverageReporters: ['text-summary'],
   coverageThreshold: {
     global: {
-      branches: 60,
-      functions: 70,
+      branches: 80,
+      functions: 80,
       lines: 80,
       statements: 80,
     },
   },
-  coverageReporters: ['text-summary'],
-  testPathIgnorePatterns: ['node_modules', 'dist'],
-  coveragePathIgnorePatterns: ['node_modules', 'dist', 'test'],
 };

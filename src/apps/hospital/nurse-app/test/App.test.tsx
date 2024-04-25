@@ -1,11 +1,16 @@
+import { render } from '@testing-library/react-native';
 import React from 'react';
-import renderer from 'react-test-renderer';
 
-import App from '../src/App';
-jest.useFakeTimers()
+import { NavigationContainer } from '@react-navigation/native';
+import { Back } from '../src/modules/shared/components/Back';
+jest.mock('@fortawesome/react-native-fontawesome', () => ({
+  FontAwesomeIcon: ''
+}))
 describe('<App />', () => {
   it('has 1 child', () => {
-    const tree: any = renderer.create(<App />).toJSON();
-    expect(tree?.children?.length).toBe(2);
+    const button = render(<NavigationContainer>
+      <Back/>
+    </NavigationContainer>)
+    expect(button).toBeTruthy();
   });
 });

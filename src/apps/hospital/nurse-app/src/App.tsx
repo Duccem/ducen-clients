@@ -63,9 +63,9 @@ export default function App() {
           countriesUrl: 'https://restcountries.com/v3.1/all',
         }}
       >
-        <GlobalNavigator></GlobalNavigator>
+        <GlobalNavigator/>
       </PrincipalContextProvider>
-      <View style={{ backgroundColor: 'transparent' }} onLayout={onLayoutRootView}></View>
+      <View style={{ backgroundColor: 'transparent' }} onLayout={onLayoutRootView}/>
       <StatusBar style="dark" translucent />
     </>
   );

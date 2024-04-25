@@ -1,0 +1,22 @@
+module.exports = {
+  root: true,
+  extends: ['@react-native'],
+  rules: {
+    'prettier/prettier': 'off',
+    'react/react-in-jsx-scope': 'off',
+    semi: 'off',
+    quotes: 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    'react-native/no-inline-styles': 'off',
+    'comma-dangle': 'off',
+    'no-unused-vars': 'off',
+    curly: 'off',
+    'react/self-closing-comp': 'off',
+    'eslint-comments/no-unused-disable': 'off',
+    'jsx-quotes': 'off',
+    'react-hooks/exhaustive-deps': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    'react/no-unstable-nested-components': 'off',
+  },
+  ignorePatterns: ['.eslintrc.js', 'babel.config.js', 'node_modules/', 'dist/'],
+};

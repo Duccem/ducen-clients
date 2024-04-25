@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import { SQLiteConnection } from '@ducen-clients/shared';
 import { Asset } from 'expo-asset';
 import * as FileSystem from 'expo-file-system';
@@ -25,8 +24,8 @@ export const DatabaseConnectionProvider = ({ children }: any) => {
   const [connection, setConnection] = useState<SQLiteConnection | null>(null);
 
   const connect = useCallback(async () => {
-    const connection = await createConnection();
-    const createdConnection = new SQLiteConnection(connection);
+    const pool = await createConnection();
+    const createdConnection = new SQLiteConnection(pool);
     setConnection(createdConnection);
   }, []);
 
