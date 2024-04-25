@@ -41,7 +41,7 @@ jobs:
         run: npm run test -w @ducen-clients/consulting-room
       - name: Create env file for E2E tests 🧪
         run: |
-            cd ./src/apps/helsa/consulting-room
+            cd ./src/apps/hospital/consulting-room
             touch .env
             echo "${{ secrets.DEV_CONSULTING_ROOM_ENV }}" | base64 --decode > .env
       - name: Start Docker Compose 🐳
