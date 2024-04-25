@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm run build -w @ducen-clients/hospital -w @ducen-clients/shared -w @ducen-clients/ui-native",
     "start": "expo start --tunnel",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "build": "eas build --platform android --local"
   },
   "dependencies": {
     "@apollo/client": "^3.9.7",
