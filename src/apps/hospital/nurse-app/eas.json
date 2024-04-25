@@ -9,8 +9,11 @@
     },
     "preview": {
       "android": {
-        "buildType": "apk"
-      }
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "distribution": "internal",
+      "developmentClient":true
     },
     "preview2": {
       "android": {
