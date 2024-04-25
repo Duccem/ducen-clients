@@ -1,7 +1,7 @@
-import { MobileButton, MobileInputText, useMobileForm } from "@ducen/ui-native";
+import { MobileButton, MobileInputText, useMobileForm } from "@ducen-clients/ui-native";
 import { StyleSheet, Text, View } from "react-native";
 import { Back } from "../../../modules/shared/components/Back";
-import { useUserContext } from "../../../modules/user/state/UserContext";
+import { useUserContext } from "../../../modules/user/UserContext";
 import { formRegisterCredentials } from "../forms/register-credentials";
 
 export function NewPassword() {

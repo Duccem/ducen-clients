@@ -1,10 +1,10 @@
-import { MobileButton, MobileInputCheck, MobileInputDate, MobileInputSelect, MobileInputText, useMobileForm } from "@ducen/ui-native"
+import { MobileButton, MobileInputCheck, MobileInputDate, MobileInputSelect, MobileInputText, useMobileForm } from "@ducen-clients/ui-native"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 import { useNavigation } from "@react-navigation/native"
 import { StyleSheet, Text, View } from "react-native"
 import { Back } from "../../../modules/shared/components/Back"
-import { useUserContext } from "../../../modules/user/state/UserContext"
+import { useUserContext } from "../../../modules/user/UserContext"
 import { formRegisterPrincipal } from "../forms/register-principal"
 const genders = ['MALE', 'FEMALE', 'OTHER'];
 export function Register() {
@@ -16,7 +16,6 @@ export function Register() {
 
   const send = () => {
     handleSubmit((values) => {
-      console.log(values)
       setPartialUser({
         name: {
           firstName: values.firstName,

@@ -1,4 +1,4 @@
-import { required } from '@ducen/ui-native';
+import { required } from '@ducen-clients/ui-native';
 
 export const formRegisterPrincipal = {
   email: {

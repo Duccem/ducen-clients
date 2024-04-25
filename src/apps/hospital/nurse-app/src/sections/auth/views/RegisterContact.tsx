@@ -1,15 +1,17 @@
-import { MobileButton, MobileInputPhone, MobileInputSelect, MobileInputText, useMobileForm } from "@ducen/ui-native"
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { useNavigation } from "@react-navigation/native"
-import { useState } from "react"
-import { StyleSheet, Text, View } from "react-native"
-import { Back } from "../../../modules/shared/components/Back"
-import { useCities } from "../../../modules/shared/hooks/useCities"
-import { useConfData } from "../../../modules/shared/hooks/useConfData"
-import { useCountries } from "../../../modules/shared/hooks/useCountries"
-import { useUserContext } from "../../../modules/user/state/UserContext"
-import { formRegisterContact } from "../forms/register-contact"
+import { MobileButton, MobileInputPhone, MobileInputSelect, MobileInputText, useMobileForm } from "@ducen-clients/ui-native";
+import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { useNavigation } from "@react-navigation/native";
+import * as Location from 'expo-location';
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { Back } from "../../../modules/shared/components/Back";
+import { useCities } from "../../../modules/shared/hooks/useCities";
+import { useConfData } from "../../../modules/shared/hooks/useConfData";
+import { useCountries } from "../../../modules/shared/hooks/useCountries";
+import { useUserContext } from "../../../modules/user/UserContext";
+import { formRegisterContact } from "../forms/register-contact";
+
 
 export function RegisterContact() {
   const navigation = useNavigation();
@@ -52,6 +54,11 @@ export function RegisterContact() {
     const phoneCode = phoneCodes.find((value) => value.country === country);
     setSelectedPhoneCode(phoneCode?.value || '');
   }
+
+  useEffect(() => {
+    Location.requestBackgroundPermissionsAsync();
+    Location.requestForegroundPermissionsAsync();
+  }, [])
   return (
     <View style={styles.container}>
       <View style={styles.form}>

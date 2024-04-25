@@ -13,3 +13,4 @@ export * from './src/domain/ValueObjects/Longitude';
 export * from './src/domain/ValueObjects/TimeStamp';
 export * from './src/domain/ValueObjects/Uuid';
 export * from './src/infrastructure/Persistence/Apollo/ApolloRepository';
+export * from './src/infrastructure/Persistence/SQLite/SQLiteConnection';

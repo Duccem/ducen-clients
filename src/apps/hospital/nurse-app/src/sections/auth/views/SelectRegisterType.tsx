@@ -1,9 +1,9 @@
-import { MobileButton } from "@ducen/ui-native";
+import { MobileButton } from "@ducen-clients/ui-native";
 import { useNavigation } from "@react-navigation/native";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Back } from "../../../modules/shared/components/Back";
 import { SelectCard } from "../../../modules/shared/components/SelectCard";
-import { useUserContext } from "../../../modules/user/state/UserContext";
+import { useUserContext } from "../../../modules/user/UserContext";
 
 export function SelectRegisterType() {
   const { setRegisterType, userState: { registerType } } = useUserContext();

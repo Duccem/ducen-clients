@@ -1,8 +1,8 @@
-import { MobileButton, MobileInputText } from '@ducen/ui-native';
+import { MobileButton, MobileInputText } from '@ducen-clients/ui-native';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Back } from '../../../modules/shared/components/Back';
-import { useUserContext } from '../../../modules/user/state/UserContext';
+import { useUserContext } from '../../../modules/user/UserContext';
 
 export function RecoveryPassword() {
   const { recoveryPassword } = useUserContext();

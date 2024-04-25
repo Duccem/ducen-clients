@@ -1,27 +1,20 @@
-import { MobileButton, MobileInputText, useMobileForm } from "@ducen/ui-native"
+import { MobileButton, MobileInputText, useMobileForm } from "@ducen-clients/ui-native"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
-import { useEffect } from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { Back } from "../../../modules/shared/components/Back"
-import { useUserContext } from "../../../modules/user/state/UserContext"
+import { useUserContext } from "../../../modules/user/UserContext"
 import { formRegisterCredentials } from "../forms/register-credentials"
 
 export function RegisterCredentials() {
-  const { setPartialUser, userState: { user }, register } = useUserContext();
+  const { register } = useUserContext();
   const { registerMobile, handleSubmit } = useMobileForm({
     fields: formRegisterCredentials
   })
 
-  useEffect(() => {
-    register();
-  }, [user])
-
   const send = () => {
-    handleSubmit((values) => {
-      setPartialUser({
-        password: values.password
-      })
+    handleSubmit(async ({ password }) => {
+      await register(password);
     }, errors => console.log(errors))
   }
 

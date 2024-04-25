@@ -1,8 +1,7 @@
-import { ApolloUserRepository } from "@helsa/modules";
+import { ApolloUserRepository, UserServices, UserStoreActions, useUserService, useUserStore } from "@ducen-clients/hospital";
 import { PropsWithChildren, createContext, useContext } from "react";
-import { useApolloContext } from "../../shared/ApolloProvider";
-import { UserServices, useUserService } from "./UserService";
-import { UserStoreActions, useUserStore } from "./UserStore";
+import { useApolloContext } from "../shared/ApolloProvider";
+
 
 
 export const UserStoreContext = createContext<UserStoreActions & UserServices>({} as UserStoreActions & UserServices);

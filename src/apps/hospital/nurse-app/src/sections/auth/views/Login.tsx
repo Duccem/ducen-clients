@@ -1,11 +1,11 @@
-import { MobileButton, MobileInputText, MobileSocialButton } from '@ducen/ui-native';
+import { MobileButton, MobileInputText, MobileSocialButton } from '@ducen-clients/ui-native';
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Facebook } from '../../../modules/shared/components/icons/facebook';
 import { Google } from '../../../modules/shared/components/icons/google';
 import { XIcon } from '../../../modules/shared/components/icons/x';
-import { useUserContext } from '../../../modules/user/state/UserContext';
+import { useUserContext } from '../../../modules/user/UserContext';
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

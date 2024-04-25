@@ -2,7 +2,6 @@ import React, { PropsWithChildren, createContext, useContext } from 'react';
 import { ApolloClientProvider } from './ApolloProvider';
 import { DatabaseConnectionProvider } from './DatabaseContext';
 import { TranslateContextProvider } from './TranslateContext';
-import { SharedProvider } from './state/SharedProvider';
 
 export interface Configurations {
   baseUrl: string;
@@ -19,9 +18,7 @@ export function PrincipalContextProvider({ children, configurations }: PropsWith
     <PrincipalContext.Provider value={{ configurations }}>
       <TranslateContextProvider>
         <DatabaseConnectionProvider>
-          <ApolloClientProvider>
-            <SharedProvider>{children}</SharedProvider>
-          </ApolloClientProvider>
+          <ApolloClientProvider>{children}</ApolloClientProvider>
         </DatabaseConnectionProvider>
       </TranslateContextProvider>
     </PrincipalContext.Provider>

@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { UserProvider } from '../../modules/user/state/UserContext';
+import { UserProvider } from '../../modules/user/UserContext';
 import { Login } from './views/Login';
 import { RecoveryPassword } from './views/RecoveryPassword';
 import { Register } from './views/Register';

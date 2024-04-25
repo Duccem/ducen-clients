@@ -17,7 +17,6 @@ import {
   Nunito_900Black_Italic,
 } from '@expo-google-fonts/nunito';
 import { useFonts } from 'expo-font';
-import * as Location from 'expo-location';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback } from 'react';
@@ -27,8 +26,6 @@ import { PrincipalContextProvider } from './modules/shared/PrincipalContext';
 import { GlobalNavigator } from './sections/global-navigator';
 SplashScreen.preventAutoHideAsync();
 LogBox.ignoreLogs(['new NativeEventEmitter']);
-Location.requestBackgroundPermissionsAsync();
-Location.requestForegroundPermissionsAsync();
 export default function App() {
   const [fontsLoaded, fontsError] = useFonts({
     Nunito_200ExtraLight,
