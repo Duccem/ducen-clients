@@ -1,9 +1,9 @@
 import { useErrorContext } from '@/modules/shared/ErrorContext';
+import { useUserContext } from '@/modules/user/UserContext';
 import { LoginForm } from '@/sections/auth/forms/LoginForm';
 import { AnimatedView, Button, Facebook, Form, Google, LinkedinIcon, PasswordInput, SocialButton, TextInput, useForm } from '@ducen-clients/ui-web';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
-import { useUserContext } from '@/modules/user/UserContext';
 export function Login() {
   const navigate = useNavigate();
   const { setErrorData } = useErrorContext();
