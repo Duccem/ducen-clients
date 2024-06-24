@@ -52,6 +52,11 @@ jobs:
         with:
           node-version: '20.10.0'
           cache: npm
+      - uses: actions/setup-java@v1.4.3
+        with:
+          java-version: '17' # The JDK version to make available on the path.
+          java-package: jdk # (jre, jdk, or jdk+fx) - defaults to jdk
+          architecture: x64 # (x64 or x86) - defaults to x
       - name: Setup EAS
         uses: expo/expo-github-action@v8
         with:
@@ -60,4 +65,4 @@ jobs:
       - name: Install dependencies
         run: npm ci ----loglevel=error
       - name: Publish update
-        run: npm run build -w @ducen-clients/nurse-app
+        run: npm run build:local -w @ducen-clients/nurse-app

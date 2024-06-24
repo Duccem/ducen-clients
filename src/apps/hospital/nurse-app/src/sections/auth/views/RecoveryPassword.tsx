@@ -1,4 +1,5 @@
 import { MobileButton, MobileInputText } from '@ducen-clients/ui-native';
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Back } from '../../../modules/shared/components/Back';
@@ -7,8 +8,10 @@ import { useUserContext } from '../../../modules/user/UserContext';
 export function RecoveryPassword() {
   const { recoveryPassword } = useUserContext();
   const [email, setEmail] = useState('');
+  const navigation = useNavigation();
   const submitEmail = async () => {
-    await recoveryPassword(email);
+    //await recoveryPassword(email);
+    navigation.navigate('verify-code' as never);
   };
   return (
     <View style={styles.container}>

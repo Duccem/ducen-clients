@@ -1,6 +1,6 @@
+import { ApolloUserRepository, UserServices, UserStoreActions, useUserService, useUserStore } from "@ducen-clients/hospital";
 import { PropsWithChildren, createContext, useContext } from "react";
 import { useApolloContext } from "../shared/ApolloProvider";
-import { UserStoreActions, UserServices, ApolloUserRepository, useUserStore, useUserService } from "@ducen-clients/hospital";
 
 export const UserStoreContext = createContext<UserStoreActions & UserServices>({} as UserStoreActions & UserServices);
 

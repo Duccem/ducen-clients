@@ -11,6 +11,7 @@
     "test": "jest",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "build": "tsc",
+    "dev": "tsc -w",
     "build:watch": "tsc -w"
   },
   "devDependencies": {

@@ -70,7 +70,6 @@ export function MobileInputText({ placeholder, secureTextEntry, onChange, onBlur
     </Animated.View>
   );
 }
-
 const styles = StyleSheet.create({
   input: {
     backgroundColor: '#F0F0F0',
@@ -87,7 +86,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: '90%',
     position: 'relative',
-    borderRadius: 5,
+    borderRadius: 10,
     marginLeft: '5%',
   },
   label: {
