@@ -7,4 +7,4 @@ services:
       dockerfile: ./src/apps/hospital/consulting-room/Dockerfile
     ports:
       - "3002:3002"
-    command: npm run dev -w @ducen-clients/consulting-room
+    command: npm run dev -w @ducen/hospital-consulting-room

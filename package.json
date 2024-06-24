@@ -6,7 +6,6 @@
   "author": "Jose Veliz (Duccem)",
   "license": "ISC",
   "workspaces": [
-    "src/apps/**/*",
-    "src/contexts/**/*"
+    "src/**/*"
   ]
 }
